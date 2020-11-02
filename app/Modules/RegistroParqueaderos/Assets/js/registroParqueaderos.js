@@ -367,28 +367,61 @@ function eleccion_piso_editar(piso) {
 function traerInfoPiso(piso)
 {
     $.get("RegistroParqueaderos/traerInfoPiso/"+piso, function(datos) {
-        num_columas = parseInt(datos.num_columas);
-        num_filas = parseInt(datos.num_filas);
+        console.log("estos son los datos del piso ",datos);
+        num_columas = datos.info_parqueadero.num_columnas;
+        num_filas = datos.info_parqueadero.num_filas;
+        num_columas = parseInt(num_columas);
+        num_filas = parseInt(num_filas);
+        $("#num_filas").val(num_filas);
+        $("#num_columas").val(num_columas);
         iniciar_matriz_editar(num_columas,num_filas,datos.puestos_piso);
     });
 }
 
 
-function iniciar_matriz(columnas, filas) {
+function iniciar_matriz_editar(columnas, filas, puestos) {
+    console.log(filas);
     matrix = new Array(filas);
     //Bucle para en cada posición del array crear otro array del número de columnas
     for (var f = 0; f < filas; f++) {
         matrix[f] = new Array(columnas);
     }
-    // Ciclo anidado donde se le asigna el valor L a todos los campos de la matrix
-    // Ciclo #1 donde se recorren las filas de la matriz
+
+    let cont = 0;
     for (var f = 0; f < matrix.length; f++) {
         // Ciclo #2 donde se recorren las columnas de la matriz
         for (var c = 0; c < matrix[f].length; c++) {
-            matrix[f][c] = "L";
+            matrix[f][c] = puestos[cont].tipo_puesto;
+            cont++;
         }
     }
-    imprimir_matriz_inicio();
+    imprimir_matriz_editar();
+    console.log("asi quedo la matriz de este piso cargado de la base de datos ",matrix);
+}
+
+function imprimir_matriz_editar() {
+    $("#div-imprimir-matriz").show();
+    let html = "";
+    let cont = 1;
+    // Ciclo anidado donde se le asigna el valor L a todos los campos de la matrix
+    for (var f = 0; f < matrix.length; f++) {
+        html = html + '<div class="flex">';
+        //Bucle que recorre el array que está en la posición i
+        for (var c = 0; c < matrix[f].length; c++) {
+            if(matrix[f][c]=="L"){
+                html = html + '<div id="div_fila_' + f + '_columna_' + c + '"  onclick="columna_seleccionada(' + f + ',' + c + ');" class="columna-matrix"><span id="span_icono_fila_' + f + '_columna_' + c + '"><i class="fas fa-square-full"></i></span><br/><span class="span-contador-columna-fila" id="span_cont_fila_' + f + '_columna_' + c + '">'+cont+'</span></div>';
+            }else if(matrix[f][c]=="M"){
+                html = html + '<div id="div_fila_' + f + '_columna_' + c + '"  onclick="columna_seleccionada(' + f + ',' + c + ');" class="columna-matrix"><span id="span_icono_fila_' + f + '_columna_' + c + '"><i class="fas fa-motorcycle"></i></span><br/><span class="span-contador-columna-fila" id="span_cont_fila_' + f + '_columna_' + c + '">'+cont+'</span></div>';
+            }else if(matrix[f][c]=="C"){
+                html = html + '<div id="div_fila_' + f + '_columna_' + c + '"  onclick="columna_seleccionada(' + f + ',' + c + ');" class="columna-matrix"><span id="span_icono_fila_' + f + '_columna_' + c + '"><i class="fas fa-car-side"></i></span><br/><span class="span-contador-columna-fila" id="span_cont_fila_' + f + '_columna_' + c + '">'+cont+'</span></div>';
+            }
+            //html = html + '<div id="btn_fila_' + f + '_columna_' + c + '" type="button" onclick="columna_seleccionada(' + f + ',' + c + ');" class="div-matrix"><i class="fas fa-square-full"></i></div>';
+            cont++;
+        }
+        html = html + '</div>';
+        $("#div-imprimir-matriz").append(html);
+        html = "";
+    }
 }
 
 
@@ -490,10 +523,17 @@ function guardar_matrix()
     let arrayJson =JSON.stringify(matrix);
     console.log("este es el array codificado nuev ccarlos",arrayJson);
     let objeto = { parqueadero:idParqueaderos, piso: piso_elejido, filas: num_filas, columnas: num_columas, matrix: arrayJson };
+    let url_get = ""; 
+    if (editar_insertar == "I") {
+        url_get = "RegistroParqueaderos/guardarMatrixPiso";
+    }
+    else{
+        url_get = "RegistroParqueaderos/guardarMatrixPisoEditar/"+piso_elejido;
+    }
     $.ajax({
         method: "post",
         data: objeto,
-        url: "RegistroParqueaderos/guardarMatrixPiso",
+        url: url_get,
         beforeSend: function() {
             Funciones.abrirModalCargando();
             $("#btn-guardar-matriz").prop('disabled', true);

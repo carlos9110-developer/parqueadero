@@ -65,6 +65,28 @@ class RegistroParqueaderosModelo
         return $this->response;
     }
 
+    public function guardarMatrixPisoEditar(array $datos)
+    {
+        $arrayColumnas  =json_decode($datos["matrix"], true );
+        $columnas = $datos['columnas'];
+        $filas = $datos['filas'];
+        try {  
+            $this->db->con->beginTransaction();
+            $this->eliminarMatrizPiso($datos['idPiso']);
+            $this->eliminarPiso($datos['idPiso']);
+            $id = $this->guardarInfoPiso($datos);
+            $this->procesarInformacionPuestos($id,$arrayColumnas,$filas,$columnas);
+            $this->db->con->commit();
+            $this->response['success'] = true;
+            $this->response['msg']     = "Diseño piso registrado exitosamente";
+        }catch (Exception $e) {
+            $this->db->con->rollBack();
+            $this->response['success'] = false;
+            $this->response['msg']     = "Error, no fue posible registrar el diseño del piso, por favor intentelo nuevamente";
+        } 
+        return $this->response; 
+    }
+
 
     private function guardarInfoPiso(array $datos)
     {
@@ -84,6 +106,20 @@ class RegistroParqueaderosModelo
                 $this->insertarPuestoParqueadero($idPiso,$matrix[$f][$c]);
             }
         }
+    }
+
+    private function eliminarMatrizPiso(int $idPiso)
+    {
+        $this->db->query(" DELETE FROM puestos where id_piso=:id_piso ");
+        $this->db->bind(':id_piso',$idPiso);
+        $this->db->execute();
+    }
+
+    private function eliminarPiso(int $idPiso)
+    {
+        $this->db->query(" DELETE FROM pisos where id=:id ");
+        $this->db->bind(':id',$idPiso);
+        $this->db->execute();
     }
 
 
@@ -178,7 +214,7 @@ class RegistroParqueaderosModelo
     // metodo para traer los pisos del parqueadero
     public  function traerPisosParqueadero(int $idParqueaderos)
     {
-        $this->db->query(" SELECT * FROM pisos WHERE id_parqueadero=:id_parqueadero ");
+        $this->db->query(" SELECT * FROM pisos WHERE id_parqueadero=:id_parqueadero ORDER BY piso ASC ");
         $this->db->bind(':id_parqueadero',$idParqueaderos);
         return $this->db->registros();
     }
@@ -254,7 +290,7 @@ class RegistroParqueaderosModelo
     {
         try {  
             $this->db->con->beginTransaction();
-            $this->db->query("UPDATE parqueaderos SET nit=:nit,nombre=:nombre,direccion=:direccion,telefono=:telefono,pisos=:pisos,capacidad_carros=:capacidad_carros,capacidad_motos=:capacidad_motos,fecha_registro=:fecha_registro WHERE id=:id ");
+            $this->db->query("UPDATE parqueaderos SET nit=:nit,nombre=:nombre,direccion=:direccion,telefono=:telefono,pisos=:pisos,capacidad_carros=:capacidad_carros,capacidad_motos=:capacidad_motos WHERE id=:id ");
             $this->db->bind(':nit',$datos['nit']);
             $this->db->bind(':nombre',$datos['nombre']);
             $this->db->bind(':direccion',$datos['direccion']);
@@ -262,7 +298,7 @@ class RegistroParqueaderosModelo
             $this->db->bind(':pisos',$datos['pisos']);
             $this->db->bind(':capacidad_carros',$datos['capacidad_carros']);
             $this->db->bind(':capacidad_motos',$datos['capacidad_motos']);
-            $this->db->bind(':fecha_registro',$datos['fecha_registro']);
+            //$this->db->bind(':fecha_registro',$datos['fecha_registro']);
             $this->db->bind(':id',$datos['id']);
             $this->db->execute();
             $this->db->con->commit();

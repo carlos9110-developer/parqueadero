@@ -11,7 +11,7 @@ define('DB_DRIVER', 'mysql');
 //  INFORMACIÓN AUTOR
 define('INFO_AUTOR', 'Todos los derechos reservados');
 //RUTA URL DE LA APLICACIÓN
-define('RUTA_URL', 'http://localhost:8080/ParqueaderoEstructura'); // este se cambiaria en el servidor
+define('RUTA_URL', 'http://localhost:8080/parqueadero'); // este se cambiaria en el servidor
 //NOMBRE DE LA APLICACIÖN
 define('NOMBRE_APP', 'Auto Express');
 //RUTA DE LA APLICACION
@@ -25,7 +25,7 @@ define('RUTA_MODULOS', RUTA_APP . SEPARADOR . 'Modules' . SEPARADOR);// ruta par
 //RUTA UPLOAD
 define('RUTA_UPLOAD', RUTA_APP . SEPARADOR . 'Upload'.SEPARADOR);// ruta para los archivos
 //  RUTA DEL LOGO
-define('RUTA_LOGO', 'http://localhost:8080/ParqueaderoEstructura/public/img/logo.jpeg'); // este se cambiaria en el servidor:8080
+define('RUTA_LOGO', 'http://localhost:8080/parqueadero/public/img/logo.jpeg'); // este se cambiaria en el servidor:8080
 
 //  VERSIÓN
 define('VERSION', '2.1');

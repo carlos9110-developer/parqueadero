@@ -3,33 +3,41 @@ class RegistroUsuariosAdministradorModelo
 {
     private $db;
     public  $result;
+    private $fechaActual;
 
     public function __construct()
     {
         $this->db = new Base();
+        $this->fechaActual =  date('Y-m-d');
     }
 
     public function insertar(array $datos)
     {
         $clave = password_hash($datos['cedula'],PASSWORD_DEFAULT);
         try {  
-            $this->db->con->beginTransaction();
-            $this->db->query(" INSERT INTO  usuarios(cedula,nombre,telefono,correo,user,contrasena,estado,fecha_registro) VALUES(:cedula,:nombre,:telefono,:correo,:user,:contrasena,:estado,:fecha_registro)  ");
+            $this->db->query(" INSERT INTO  usuarios(cedula,nombre,telefono,correo,user,contrasena,fecha_registro) VALUES(:cedula,:nombre,:telefono,:correo,:user,:contrasena,:fecha_registro)  ");
             $this->db->bind(':cedula',$datos['cedula']);
-            $this->db->bind(':pass',$clave);
-            $this->db->bind(':tipo_usuario',$datos['tipo_usuario']);
             $this->db->bind(':nombre',$datos['nombre']);
+            $this->db->bind(':telefono',$datos['telefono']);
             $this->db->bind(':correo',$datos['correo']);
-            $this->db->bind(':celular',$datos['celular']);
+            $this->db->bind(':user',$datos['correo']);
+            $this->db->bind(':contrasena',$clave);
+            $this->db->bind(':fecha_registro',$this->fechaActual);
             $this->db->execute();
-            $this->db->con->commit();
             return true;
         } catch (Exception $e) {
-            $this->db->con->rollBack();
             return false;
         } 
     }
 
+
+    public function listar()
+    {
+        $this->db->query(" SELECT * FROM usuarios ");
+        return $this->db->registros();
+    }
+
+    /*
     public function listar()
     {
         $table      = 'usuarios';
@@ -61,33 +69,33 @@ class RegistroUsuariosAdministradorModelo
 		$having = "";
         return SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraWhere, $groupBy, $having );
     }
+    */
 
     // método donde se traen los datos de un determinado registro
     public function traerDatos(int $id)
     {
-        $this->db->query(" SELECT * FROM users WHERE id=:id ");
+        $this->db->query(" SELECT * FROM usuarios WHERE id=:id ");
         $this->db->bind(':id',$id);
-        $this->result = $this->db->registro();
-        return $this->result;
+        return  $this->db->registro();
     }
 
     // método donde se edita un determinado registro
     public function editar(array $datos)
     {
+        $clave = password_hash($datos['cedula'],PASSWORD_DEFAULT);
         try {  
-            $this->db->con->beginTransaction();
-            $this->db->query("UPDATE users SET user=:user,tipo_usuario=:tipo_usuario,nombre=:nombre,correo=:correo,celular=:celular WHERE id=:id ");
-            $this->db->bind(':user',$datos['cedula']);
-            $this->db->bind(':tipo_usuario',$datos['tipo_usuario']);
+            $this->db->query("UPDATE usuarios SET cedula=:cedula,nombre=:nombre,telefono=:telefono,correo=:correo,user=:user,contrasena=:contrasena,estado=:estado WHERE id=:id ");
+            $this->db->bind(':cedula',$datos['cedula']);
             $this->db->bind(':nombre',$datos['nombre']);
+            $this->db->bind(':telefono',$datos['telefono']);
             $this->db->bind(':correo',$datos['correo']);
-            $this->db->bind(':celular',$datos['celular']);
+            $this->db->bind(':user',$datos['correo']);
+            $this->db->bind(':contrasena',$clave);
+            $this->db->bind(':estado',$datos['estado']);
             $this->db->bind(':id',$datos['id']);
             $this->db->execute();
-            $this->db->con->commit();
             return true;
         } catch (Exception $e) {
-            $this->db->con->rollBack();
             return false;
         } 
     }

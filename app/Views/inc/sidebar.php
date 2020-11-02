@@ -14,19 +14,19 @@
 <!-- Divider -->
 <hr class="sidebar-divider my-0">
 <li class="nav-item">
-  <a class="nav-link" href="Inicio">
+  <a class="nav-link" href="<?php echo RUTA_URL ?>/Inicio">
     <i class="fas fa-fw fa-home"></i>
     <span>Inicio</span>
   </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="RegistroParqueaderos">
+  <a class="nav-link" href="<?php echo RUTA_URL ?>/RegistroParqueaderos">
     <i class="fas fa-fw fa-warehouse"></i>
     <span>Registro Parqueaderos</span>
   </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="RegistroUsuariosAdministrador">
+  <a class="nav-link" href="<?php echo RUTA_URL ?>/RegistroUsuariosAdministrador">
     <i class="fas fa-fw fa-user"></i>
     <span>Registro Usuarios</span>
   </a>

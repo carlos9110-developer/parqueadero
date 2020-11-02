@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-10-2020 a las 04:38:49
+-- Tiempo de generación: 02-11-2020 a las 21:51:20
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.3.21
 
@@ -46,7 +46,7 @@ CREATE TABLE `parqueaderos` (
 --
 
 INSERT INTO `parqueaderos` (`id`, `nit`, `nombre`, `direccion`, `telefono`, `pisos`, `capacidad_carros`, `capacidad_motos`, `fecha_registro`, `configuracion_plano`, `registro_logo`) VALUES
-(1, '2', 'parqueadero la octava', 'calle 20 c', '3383179', 3, 40, 60, '2020-10-19', '0', '0');
+(1, '3232323', 'parqueadero la octava', 'calle 20 c', '3383179', 5, 10, 20, '2020-11-01', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -67,7 +67,11 @@ CREATE TABLE `pisos` (
 --
 
 INSERT INTO `pisos` (`id`, `id_parqueadero`, `piso`, `num_filas`, `num_columnas`) VALUES
-(1, 1, 1, 6, 6);
+(1, 1, 1, 4, 4),
+(2, 1, 2, 4, 4),
+(3, 1, 3, 4, 4),
+(4, 1, 4, 4, 4),
+(5, 1, 5, 4, 4);
 
 -- --------------------------------------------------------
 
@@ -93,36 +97,80 @@ INSERT INTO `puestos` (`id`, `id_piso`, `tipo_puesto`, `estado`) VALUES
 (4, 1, 'M', 'L'),
 (5, 1, 'M', 'L'),
 (6, 1, 'M', 'L'),
-(7, 1, 'L', 'L'),
-(8, 1, 'L', 'L'),
-(9, 1, 'L', 'L'),
-(10, 1, 'L', 'L'),
-(11, 1, 'L', 'L'),
-(12, 1, 'L', 'L'),
-(13, 1, 'C', 'L'),
-(14, 1, 'C', 'L'),
-(15, 1, 'C', 'L'),
-(16, 1, 'C', 'L'),
-(17, 1, 'C', 'L'),
-(18, 1, 'C', 'L'),
-(19, 1, 'L', 'L'),
-(20, 1, 'L', 'L'),
-(21, 1, 'L', 'L'),
-(22, 1, 'L', 'L'),
-(23, 1, 'L', 'L'),
-(24, 1, 'L', 'L'),
-(25, 1, 'M', 'L'),
-(26, 1, 'M', 'L'),
-(27, 1, 'M', 'L'),
-(28, 1, 'M', 'L'),
-(29, 1, 'M', 'L'),
-(30, 1, 'M', 'L'),
-(31, 1, 'L', 'L'),
-(32, 1, 'L', 'L'),
-(33, 1, 'L', 'L'),
-(34, 1, 'L', 'L'),
-(35, 1, 'L', 'L'),
-(36, 1, 'L', 'L');
+(7, 1, 'M', 'L'),
+(8, 1, 'M', 'L'),
+(9, 1, 'M', 'L'),
+(10, 1, 'M', 'L'),
+(11, 1, 'M', 'L'),
+(12, 1, 'M', 'L'),
+(13, 1, 'M', 'L'),
+(14, 1, 'M', 'L'),
+(15, 1, 'M', 'L'),
+(16, 1, 'M', 'L'),
+(17, 2, 'C', 'L'),
+(18, 2, 'C', 'L'),
+(19, 2, 'C', 'L'),
+(20, 2, 'C', 'L'),
+(21, 2, 'C', 'L'),
+(22, 2, 'C', 'L'),
+(23, 2, 'C', 'L'),
+(24, 2, 'C', 'L'),
+(25, 2, 'C', 'L'),
+(26, 2, 'C', 'L'),
+(27, 2, 'C', 'L'),
+(28, 2, 'C', 'L'),
+(29, 2, 'C', 'L'),
+(30, 2, 'C', 'L'),
+(31, 2, 'C', 'L'),
+(32, 2, 'C', 'L'),
+(33, 3, 'M', 'L'),
+(34, 3, 'M', 'L'),
+(35, 3, 'M', 'L'),
+(36, 3, 'M', 'L'),
+(37, 3, 'M', 'L'),
+(38, 3, 'M', 'L'),
+(39, 3, 'M', 'L'),
+(40, 3, 'M', 'L'),
+(41, 3, 'M', 'L'),
+(42, 3, 'M', 'L'),
+(43, 3, 'M', 'L'),
+(44, 3, 'M', 'L'),
+(45, 3, 'M', 'L'),
+(46, 3, 'M', 'L'),
+(47, 3, 'M', 'L'),
+(48, 3, 'M', 'L'),
+(49, 4, 'C', 'L'),
+(50, 4, 'C', 'L'),
+(51, 4, 'C', 'L'),
+(52, 4, 'C', 'L'),
+(53, 4, 'C', 'L'),
+(54, 4, 'C', 'L'),
+(55, 4, 'C', 'L'),
+(56, 4, 'C', 'L'),
+(57, 4, 'C', 'L'),
+(58, 4, 'C', 'L'),
+(59, 4, 'C', 'L'),
+(60, 4, 'C', 'L'),
+(61, 4, 'C', 'L'),
+(62, 4, 'C', 'L'),
+(63, 4, 'C', 'L'),
+(64, 4, 'C', 'L'),
+(65, 5, 'M', 'L'),
+(66, 5, 'M', 'L'),
+(67, 5, 'M', 'L'),
+(68, 5, 'M', 'L'),
+(69, 5, 'C', 'L'),
+(70, 5, 'C', 'L'),
+(71, 5, 'C', 'L'),
+(72, 5, 'C', 'L'),
+(73, 5, 'M', 'L'),
+(74, 5, 'M', 'L'),
+(75, 5, 'M', 'L'),
+(76, 5, 'M', 'L'),
+(77, 5, 'C', 'L'),
+(78, 5, 'C', 'L'),
+(79, 5, 'C', 'L'),
+(80, 5, 'C', 'L');
 
 -- --------------------------------------------------------
 
@@ -165,7 +213,12 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `cedula`, `nombre`, `telefono`, `correo`, `user`, `contrasena`, `estado`, `fecha_registro`) VALUES
-(1, '1088008382', 'Caros Eduardo Hincapie Hidalgo', '3383179', 'ce.hincapie19@ciaf.edu.co', 'ce.hincapie19@ciaf.edu.co_1111', '$2y$10$3l/TdXwSqJyxDg4WOVbFMOWjXXXFiG8umGoBMM2LkZavp0HoCJU2S', 'Activado', '2020-09-14');
+(1, '1088008382', 'Caros Eduardo Hincapie Hidalgo', '3383179', 'ce.hincapie19@ciaf.edu.co', 'ce.hincapie19@ciaf.edu.co', '$2y$10$TacIawrQgxMBnk8FhhnFgugtKagzeSgad6cDPklU.JraenAmrbBeG', 'Activado', '2020-09-14'),
+(2, '24412210', 'Hector Ivan Correa', '3383179', 'ce.hincapie19editado@ciaf.edu.co', 'ce.hincapie19editado@ciaf.edu.co', '$2y$10$nY2.JYn8XxGpJB6GXc4zLe7.J3QQfxMd9M/zfv4ySD0PEn0jm4w4u', 'Activado', '2020-11-01'),
+(3, '4352060', 'Carlos Eduardo Hincapie Hidalgo', '3383179', 'ce.hincapie19editado@ciaf.edu.co', 'ce.hincapie19editado@ciaf.edu.co', '$2y$10$U20Pxe9uxyUkePnKODRTJeAQk8lfrFp0Cdh6SmKnNS3VPP5pQSefC', 'Activado', '2020-11-01'),
+(4, '10880083825', 'Hector Ivan Correa', '3207236603', 'ce.hincapie19editado@ciaf.edu.co', 'ce.hincapie19editado@ciaf.edu.co', '$2y$10$thcOi/HhYL8bWYiO9eRC3uj9BT5fuVrk4Phvc.SqPTN21C.EAOEFS', 'Activado', '2020-11-01'),
+(5, '999999', 'Hector Ivan Correa', '3383179', 'ce.hincapie19editado@ciaf.edu.co', 'ce.hincapie19editado@ciaf.edu.co', '$2y$10$/FOqu1lcDIBFjSM4bM4lS.TOhO7P/d1q2mNI.Lrpz8iWABTM8cAP6', 'Activado', '2020-11-01'),
+(6, '212121', 'Carlos Eduardo Hincapie Hidalgo', '3383179', 'ce.hincapie19editado@ciaf.edu.co', 'ce.hincapie19editado@ciaf.edu.co', '$2y$10$so1v/oaY70bBAHKjWkmiSOHtdZv436mPWaLHRk/VrjLqqE95ovv0y', 'Activado', '2020-11-01');
 
 -- --------------------------------------------------------
 
@@ -235,7 +288,8 @@ ALTER TABLE `roles`
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `cedula` (`cedula`);
 
 --
 -- Indices de la tabla `usuarios_rol_parqueadero`
@@ -266,13 +320,13 @@ ALTER TABLE `parqueaderos`
 -- AUTO_INCREMENT de la tabla `pisos`
 --
 ALTER TABLE `pisos`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `puestos`
 --
 ALTER TABLE `puestos`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -284,7 +338,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios_rol_parqueadero`

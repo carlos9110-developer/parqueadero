@@ -131,4 +131,15 @@ class RegistroParqueaderos extends Controller
     }
 
     
+    
+     /**
+     * EL método guardarMatrixPisoEditar se encarga de editar la matrix de un determinado piso
+     * @return json con la la respuesta de la acción
+     */
+    public function guardarMatrixPisoEditar(int $idPiso)
+    {
+        $_POST['idPiso'] = $idPiso;
+        responderJson($this->registroParqueaderoModelo->guardarMatrixPisoEditar($_POST));
+    } 
+    
 }

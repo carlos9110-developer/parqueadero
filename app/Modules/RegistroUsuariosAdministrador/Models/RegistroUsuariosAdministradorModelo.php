@@ -4,6 +4,7 @@ class RegistroUsuariosAdministradorModelo
     private $db;
     public  $result;
     private $fechaActual;
+    
 
     public function __construct()
     {
@@ -15,12 +16,11 @@ class RegistroUsuariosAdministradorModelo
     {
         $clave = password_hash($datos['cedula'],PASSWORD_DEFAULT);
         try {  
-            $this->db->query(" INSERT INTO  usuarios(cedula,nombre,telefono,correo,user,contrasena,fecha_registro) VALUES(:cedula,:nombre,:telefono,:correo,:user,:contrasena,:fecha_registro)  ");
+            $this->db->query(" INSERT INTO  usuarios(cedula,nombre,telefono,correo,user,contrasena,fecha_registro) VALUES(:cedula,:nombre,:telefono,:correo,:contrasena,:fecha_registro)  ");
             $this->db->bind(':cedula',$datos['cedula']);
             $this->db->bind(':nombre',$datos['nombre']);
             $this->db->bind(':telefono',$datos['telefono']);
             $this->db->bind(':correo',$datos['correo']);
-            $this->db->bind(':user',$datos['correo']);
             $this->db->bind(':contrasena',$clave);
             $this->db->bind(':fecha_registro',$this->fechaActual);
             $this->db->execute();
@@ -33,48 +33,40 @@ class RegistroUsuariosAdministradorModelo
 
     public function listar()
     {
-        $this->db->query(" SELECT * FROM usuarios ");
-        return $this->db->registros();
-    }
-
-    /*
-    public function listar()
-    {
         $table      = 'usuarios';
-		// Table's primary key
+        // Table's primary key
         $primaryKey = 'id';
-		// indexes
-		$columns = array
-		(
-			array( 'db' => '`us`.`id`',           'dt' => 'id',             'field' => 'id' ),
-            array( 'db' => '`us`.`cedula`',         'dt' => 'cedula',           'field' => 'cedula' ),
-            array( 'db' => '`us`.`nombre`', 'dt' => 'nombre',   'field' => 'nombre' ),
-            array( 'db' => '`us`.`telefono`',       'dt' => 'telefono',         'field' => 'telefono' ),
-            array( 'db' => '`us`.`correo`',       'dt' => 'correo',         'field' => 'correo' ),
-            array( 'db' => '`us`.`user`',      'dt' => 'user',        'field' => 'user' ),
-            array( 'db' => '`us`.`estado`',       'dt' => 'estado',         'field' => 'estado' ),
-            array( 'db' => '`us`.`fecha_registro`',      'dt' => 'fecha_registro',        'field' => 'fecha_registro' )
+        // indexes
+        $columns = array
+        (
+            array( 'db' => '`us`.`id`',           'dt' => 'id',             'field' => 'id' ),
+            array( 'db' => '`us`.`cedula`',          'dt' => 'cedula',            'field' => 'cedula' ),
+            array( 'db' => '`us`.`nombre`',          'dt' => 'nombre',            'field' => 'nombre' ),
+            array( 'db' => '`us`.`telefono`',           'dt' => 'telefono',             'field' => 'telefono' ),
+            array( 'db' => '`us`.`correo`',          'dt' => 'correo',            'field' => 'correo' ),
+            array( 'db' => '`us`.`estado`',          'dt' => 'estado',            'field' => 'estado' )
+
         );
         $sql_details = array
-		(
-			'user' => DB_USER,
-			'pass' => DB_PASS,
-			'db'   => DB_NAME,
-			'host' => DB_HOST
+        (
+            'user' => DB_USER,
+            'pass' => DB_PASS,
+            'db'   => DB_NAME,
+            'host' => DB_HOST
         );
         
         $joinQuery = "FROM `usuarios` AS `us` ";
         $extraWhere= "";
         $groupBy = "";
-		$having = "";
+        $having = "";
         return SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraWhere, $groupBy, $having );
     }
-    */
+    
 
     // método donde se traen los datos de un determinado registro
-    public function traerDatos(int $id)
+    public function traerInfoUsuario(int $id)
     {
-        $this->db->query(" SELECT * FROM usuarios WHERE id=:id ");
+        $this->db->query("SELECT * FROM usuarios WHERE id=:id ");
         $this->db->bind(':id',$id);
         return  $this->db->registro();
     }
@@ -82,15 +74,12 @@ class RegistroUsuariosAdministradorModelo
     // método donde se edita un determinado registro
     public function editar(array $datos)
     {
-        $clave = password_hash($datos['cedula'],PASSWORD_DEFAULT);
         try {  
-            $this->db->query("UPDATE usuarios SET cedula=:cedula,nombre=:nombre,telefono=:telefono,correo=:correo,user=:user,contrasena=:contrasena,estado=:estado WHERE id=:id ");
+            $this->db->query("UPDATE usuarios SET cedula=:cedula,nombre=:nombre,telefono=:telefono,correo=:correo,estado=:estado WHERE id=:id ");
             $this->db->bind(':cedula',$datos['cedula']);
             $this->db->bind(':nombre',$datos['nombre']);
             $this->db->bind(':telefono',$datos['telefono']);
             $this->db->bind(':correo',$datos['correo']);
-            $this->db->bind(':user',$datos['correo']);
-            $this->db->bind(':contrasena',$clave);
             $this->db->bind(':estado',$datos['estado']);
             $this->db->bind(':id',$datos['id']);
             $this->db->execute();

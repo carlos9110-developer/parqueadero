@@ -13,7 +13,7 @@ define('INFO_AUTOR', 'Todos los derechos reservados');
 //RUTA URL DE LA APLICACIÓN
 define('RUTA_URL', 'http://localhost:8080/parqueadero'); // este se cambiaria en el servidor
 //NOMBRE DE LA APLICACIÖN
-define('NOMBRE_APP', 'Auto Express');
+define('NOMBRE_APP', 'Parking Soft');
 //RUTA DE LA APLICACION
 define('RUTA_APP',  dirname(dirname(__FILE__)));// toma la ruta de la carpeta app,  C:\xampp\htdocs\adminsoft\app
 //ZONA HORARIA

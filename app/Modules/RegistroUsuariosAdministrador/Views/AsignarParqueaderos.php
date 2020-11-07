@@ -7,7 +7,6 @@
     
       <!-- Main Content -->
         <div id="content">
-
             <?php require(RUTA_APP . '/Views/inc/navbar.php'); ?>
             <div class="container-fluid">
             	<div class="col-lg-12 text-right">
@@ -20,38 +19,30 @@
                       <div class="card-body">
                       	<form method="POST" id="form-usuarios" name="form-usuarios">
                       		<input type="hidden" name="id" id="id" value="<?php echo $datos['info_usuario']->id; ?>">
-                      		<div class="row">            
-	                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-3">
+                      		<div class="row">   
+                      			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-3">
 	                                <label for="cedula">Cédula</label>
 	                                <div class="input-group mb-3">
 	                                    <div class="input-group-prepend">
 	                                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-address-card"></i></span>
 	                                    </div>
-	                                    <input value="<?php echo $datos['info_usuario']->cedula; ?>" pattern="[0-9]+"   type="text" class="form-control" placeholder="Digite la cédula sin puntos" name="cedula" id="cedula" required>
+	                                    <input value="<?php echo $datos['info_usuario']->cedula; ?>" pattern="[0-9]+"   type="text" class="form-control" placeholder="Digite la cédula sin puntos" name="cedula" id="cedula" required disabled>
 	                                </div>
 	                            </div>
-	                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-3">
+                      			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-3">
 	                                <label for="nombre">Nombre</label>
 	                                <div class="input-group mb-3">
 	                                    <div class="input-group-prepend">
 	                                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
 	                                    </div>
-	                                    <input value="<?php echo $datos['info_usuario']->nombre; ?>" pattern="[A-Za-z]{3-50}" type="text" class="form-control" placeholder="Nombre" name="nombre" id="nombre" required>
+	                                    <input value="<?php echo $datos['info_usuario']->nombre; ?>" pattern="[A-Za-z]{3-50}" type="text" class="form-control" placeholder="Nombre" name="nombre" id="nombre" disabled>
 	                                </div>
-	                            </div>
+	                            </div>         
+	                            
 	                        </div>
 	                        <div class="row">
 	                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-3">
-	                                 <label for="telefono">Teléfono</label>
-	                                <div class="input-group mb-3">
-	                                    <div class="input-group-prepend">
-	                                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-address-card"></i></span>
-	                                    </div>
-	                                    <input value="<?php echo $datos['info_usuario']->telefono; ?>" pattern="[0-9]+"   type="text" class="form-control" placeholder="Digite el número de celular" name="telefono" id="telefono" required>
-	                                </div>
-	                            </div>
-	                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-3">
-	                                <label for="correo">Correo</label>
+	                                <label for="correo">Us</label>
 	                                <div class="input-group mb-3">
 	                                    <div class="input-group-prepend">
 	                                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
@@ -92,9 +83,6 @@
                 </div>
             </div>
         </div>
-
-       
-    
         <?php require(RUTA_APP . '/Views/inc/cargando.php'); ?>
         <script src="<?php echo RUTA_URL ?>/RegistroUsuariosAdministrador/files?js=Assets/js/editar.js"></script>
 

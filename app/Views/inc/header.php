@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+<input hidden id="ruta_app" value="<?php  echo RUTA_URL?>">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title><?php echo $datos['titulo'] ?></title>
+  <title><?= NOMBRE_APP; ?></title>
   
   <!-- Custom fonts for this template-->
   <link href="<?php echo RUTA_URL ?>/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -32,17 +33,7 @@
   <link rel="stylesheet" type="text/css" href="<?php echo RUTA_URL?>/RegistroParqueaderos/files?css=Assets/css/registroParqueaderos.css">
   <?php endif; ?>
   
-  <?php if( $datos['titulo']=='Registro Usuarios Administrador' || $datos['titulo']=='Inventario' ||  $datos['titulo']=='Entrada Productos' ||  $datos['titulo']=='Registro Parqueaderos'): ?>
-
-    <?php if($datos['titulo']=='Inventario'): ?>
-      <link rel="stylesheet" type="text/css" href="<?php echo RUTA_URL?>/Inventario/files?css=Assets/css/inventario.css">
-    <?php endif; ?>
-
-    <?php if($datos['titulo']=='Registro Trabajos'): ?>
-      <link rel="stylesheet" type="text/css" href="<?php echo RUTA_URL ?>/public/selectpicker/css/selectpicker.min.css">	
-      <script src="<?php echo RUTA_URL ?>/public/selectpicker/js/selectpicker.min.js"></script>
-    <?php endif; ?>
-
+  <?php if( $datos['titulo']=='Registro Usuarios Administrador' ||  $datos['titulo']=='Registro Parqueaderos'): ?>
     <link rel="stylesheet" type="text/css" href="<?php echo RUTA_URL ?>/public/DataTables/datatables.css">
     <link rel="stylesheet" type="text/css" href="<?php echo RUTA_URL ?>/public/DataTables/responsivedataTablesmin.css">
     <!-- libreiras dataTable -->

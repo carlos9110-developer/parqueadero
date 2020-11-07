@@ -24,24 +24,11 @@
                                     <th>Nombre</th>
                                     <th>Telefóno</th>
                                     <th>Correo</th>
-                                    <th>User</th>
                                     <th>Estado</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($datos['lista_usuarios'] as $usuario): ?>
-                                    <tr>
-                                        <td><?php echo $usuario->id; ?></td>
-                                        <td><?php echo $usuario->cedula; ?></td>
-                                        <td><?php echo $usuario->nombre; ?></td>
-                                        <td><?php echo $usuario->telefono; ?></td>
-                                        <td><?php echo $usuario->correo; ?></td>
-                                        <td><?php echo $usuario->user; ?></td>
-                                        <td><?php echo $usuario->estado; ?></td>
-                                        <td class="text-center"><a href="<?php echo RUTA_URL ?>/RegistroUsuariosAdministrador/editar/<?php echo $usuario->id; ?>" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a></td>
-                                    </tr>
-                                <?php endforeach;?>
                             </tbody>
                         </table>
                       </div>
@@ -52,8 +39,9 @@
         </div>
 
         
-    
+         
         <?php require(RUTA_APP . '/Views/inc/cargando.php'); ?>
+        <script src="<?php echo RUTA_URL?>/RegistroUsuariosAdministrador/files?js=Assets/js/listar.js"></script>
 
         <!-- Footer -->
         <footer class="sticky-footer bg-white">
@@ -70,15 +58,3 @@
     <i class="fas fa-angle-up"></i>
 </a>
 <?php require(RUTA_APP . '/Views/inc/footer.php'); ?>
-
-<script type="text/javascript">
-	$(document).ready(function() {
-	  $('#tbl_usuarios').DataTable({
-	    "language": {
-	      "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-	    }
-	  });
-	});
-</script>
-
-?>

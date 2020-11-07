@@ -240,8 +240,9 @@
         </div>
 
         
-        <script src="<?php echo RUTA_URL?>/RegistroParqueaderos/files?js=Assets/js/registroParqueaderos.js"></script>
+        
         <?php require(RUTA_APP . '/Views/inc/cargando.php'); ?>
+        <script src="<?php echo RUTA_URL?>/RegistroParqueaderos/files?js=Assets/js/registroParqueaderos.js"></script>
 
         <!-- Footer -->
         <footer class="sticky-footer bg-white">

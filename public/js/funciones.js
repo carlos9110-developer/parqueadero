@@ -1,3 +1,4 @@
+const ruta = document.getElementById("ruta_app").value;
 var Funciones = (function() {
     return {
         cerrarModalCargando: function() {

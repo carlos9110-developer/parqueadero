@@ -306,7 +306,7 @@ function verConfiguracionPlano() {
         $("#btn_cerrar_configuracion_plano").show();
         if (editar_insertar == "I") {
             cargar_pisos_inicial(numero_pisos);
-        }else{
+        } else {
             cargar_pisos_editar(numero_pisos);
         }
     }
@@ -331,8 +331,8 @@ function cargar_pisos_inicial(pisos) {
 
 function cargar_pisos_editar(pisos) {
     $("#list-config-pisos").html('');
-    $.get("RegistroParqueaderos/traerPisosParqueadero/"+idParqueaderos, function(datos) {
-        console.log("pisos  traidos desde la base de datos",datos);
+    $.get("RegistroParqueaderos/traerPisosParqueadero/" + idParqueaderos, function(datos) {
+        console.log("pisos  traidos desde la base de datos", datos);
         $.each(datos, function(indice, valor) {
             let html = '<li id="item-piso-' + valor.id + '" onclick="eleccion_piso_editar(' + valor.id + ')" class="list-group-item cursor">Piso #' + valor.piso + '</li>';
             $("#list-config-pisos").append(html);
@@ -364,17 +364,16 @@ function eleccion_piso_editar(piso) {
     traerInfoPiso(piso_elejido);
 }
 
-function traerInfoPiso(piso)
-{
-    $.get("RegistroParqueaderos/traerInfoPiso/"+piso, function(datos) {
-        console.log("estos son los datos del piso ",datos);
-        num_columas = datos.info_parqueadero.num_columnas;
-        num_filas = datos.info_parqueadero.num_filas;
+function traerInfoPiso(piso) {
+    $.get("RegistroParqueaderos/traerInfoPiso/" + piso, function(datos) {
+        console.log("estos son los datos del piso ", datos);
+        num_columas = datos.info_piso.num_columnas;
+        num_filas = datos.info_piso.num_filas;
         num_columas = parseInt(num_columas);
         num_filas = parseInt(num_filas);
         $("#num_filas").val(num_filas);
         $("#num_columas").val(num_columas);
-        iniciar_matriz_editar(num_columas,num_filas,datos.puestos_piso);
+        iniciar_matriz_editar(num_columas, num_filas, datos.puestos_piso);
     });
 }
 
@@ -396,7 +395,7 @@ function iniciar_matriz_editar(columnas, filas, puestos) {
         }
     }
     imprimir_matriz_editar();
-    console.log("asi quedo la matriz de este piso cargado de la base de datos ",matrix);
+    console.log("asi quedo la matriz de este piso cargado de la base de datos ", matrix);
 }
 
 function imprimir_matriz_editar() {
@@ -408,12 +407,12 @@ function imprimir_matriz_editar() {
         html = html + '<div class="flex">';
         //Bucle que recorre el array que está en la posición i
         for (var c = 0; c < matrix[f].length; c++) {
-            if(matrix[f][c]=="L"){
-                html = html + '<div id="div_fila_' + f + '_columna_' + c + '"  onclick="columna_seleccionada(' + f + ',' + c + ');" class="columna-matrix"><span id="span_icono_fila_' + f + '_columna_' + c + '"><i class="fas fa-square-full"></i></span><br/><span class="span-contador-columna-fila" id="span_cont_fila_' + f + '_columna_' + c + '">'+cont+'</span></div>';
-            }else if(matrix[f][c]=="M"){
-                html = html + '<div id="div_fila_' + f + '_columna_' + c + '"  onclick="columna_seleccionada(' + f + ',' + c + ');" class="columna-matrix"><span id="span_icono_fila_' + f + '_columna_' + c + '"><i class="fas fa-motorcycle"></i></span><br/><span class="span-contador-columna-fila" id="span_cont_fila_' + f + '_columna_' + c + '">'+cont+'</span></div>';
-            }else if(matrix[f][c]=="C"){
-                html = html + '<div id="div_fila_' + f + '_columna_' + c + '"  onclick="columna_seleccionada(' + f + ',' + c + ');" class="columna-matrix"><span id="span_icono_fila_' + f + '_columna_' + c + '"><i class="fas fa-car-side"></i></span><br/><span class="span-contador-columna-fila" id="span_cont_fila_' + f + '_columna_' + c + '">'+cont+'</span></div>';
+            if (matrix[f][c] == "L") {
+                html = html + '<div id="div_fila_' + f + '_columna_' + c + '"  onclick="columna_seleccionada(' + f + ',' + c + ');" class="columna-matrix"><span id="span_icono_fila_' + f + '_columna_' + c + '"><i class="fas fa-square-full"></i></span><br/><span class="span-contador-columna-fila" id="span_cont_fila_' + f + '_columna_' + c + '">' + cont + '</span></div>';
+            } else if (matrix[f][c] == "M") {
+                html = html + '<div id="div_fila_' + f + '_columna_' + c + '"  onclick="columna_seleccionada(' + f + ',' + c + ');" class="columna-matrix"><span id="span_icono_fila_' + f + '_columna_' + c + '"><i class="fas fa-motorcycle"></i></span><br/><span class="span-contador-columna-fila" id="span_cont_fila_' + f + '_columna_' + c + '">' + cont + '</span></div>';
+            } else if (matrix[f][c] == "C") {
+                html = html + '<div id="div_fila_' + f + '_columna_' + c + '"  onclick="columna_seleccionada(' + f + ',' + c + ');" class="columna-matrix"><span id="span_icono_fila_' + f + '_columna_' + c + '"><i class="fas fa-car-side"></i></span><br/><span class="span-contador-columna-fila" id="span_cont_fila_' + f + '_columna_' + c + '">' + cont + '</span></div>';
             }
             //html = html + '<div id="btn_fila_' + f + '_columna_' + c + '" type="button" onclick="columna_seleccionada(' + f + ',' + c + ');" class="div-matrix"><i class="fas fa-square-full"></i></div>';
             cont++;
@@ -464,7 +463,7 @@ function imprimir_matriz_inicio() {
         //Bucle que recorre el array que está en la posición i
         for (var c = 0; c < matrix[f].length; c++) {
             //html = html + '<div id="btn_fila_' + f + '_columna_' + c + '" type="button" onclick="columna_seleccionada(' + f + ',' + c + ');" class="div-matrix"><i class="fas fa-square-full"></i></div>';
-            html = html + '<div id="div_fila_' + f + '_columna_' + c + '"  onclick="columna_seleccionada(' + f + ',' + c + ');" class="columna-matrix"><span id="span_icono_fila_' + f + '_columna_' + c + '"><i class="fas fa-square-full"></i></span><br/><span class="span-contador-columna-fila" id="span_cont_fila_' + f + '_columna_' + c + '">'+cont+'</span></div>';
+            html = html + '<div id="div_fila_' + f + '_columna_' + c + '"  onclick="columna_seleccionada(' + f + ',' + c + ');" class="columna-matrix"><span id="span_icono_fila_' + f + '_columna_' + c + '"><i class="fas fa-square-full"></i></span><br/><span class="span-contador-columna-fila" id="span_cont_fila_' + f + '_columna_' + c + '">' + cont + '</span></div>';
             cont++;
         }
         html = html + '</div>';
@@ -518,17 +517,15 @@ function columna_seleccionada(fila, columna) {
     console.log("asi quedo la matriz despues de elejir una columna", matrix);
 }
 
-function guardar_matrix()
-{
-    let arrayJson =JSON.stringify(matrix);
-    console.log("este es el array codificado nuev ccarlos",arrayJson);
-    let objeto = { parqueadero:idParqueaderos, piso: piso_elejido, filas: num_filas, columnas: num_columas, matrix: arrayJson };
-    let url_get = ""; 
+function guardar_matrix() {
+    let arrayJson = JSON.stringify(matrix);
+    console.log("este es el array codificado nuev ccarlos", arrayJson);
+    let objeto = { parqueadero: idParqueaderos, piso: piso_elejido, filas: num_filas, columnas: num_columas, matrix: arrayJson };
+    let url_get = "";
     if (editar_insertar == "I") {
         url_get = "RegistroParqueaderos/guardarMatrixPiso";
-    }
-    else{
-        url_get = "RegistroParqueaderos/guardarMatrixPisoEditar/"+piso_elejido;
+    } else {
+        url_get = "RegistroParqueaderos/guardarMatrixPisoEditar/" + piso_elejido;
     }
     $.ajax({
         method: "post",
@@ -540,11 +537,10 @@ function guardar_matrix()
             $("#btn-guardar-matriz").html("Guardando Información");
         },
         success: function(datos) {
-            if(datos.success==true)
-            {
-                alertify.success('<center><b style="color:white;">'+datos.msg+'</b></center>');
-            }else{
-                alertify.error('<center><b style="color:white;">'+datos.msg+'</b></center>');
+            if (datos.success == true) {
+                alertify.success('<center><b style="color:white;">' + datos.msg + '</b></center>');
+            } else {
+                alertify.error('<center><b style="color:white;">' + datos.msg + '</b></center>');
             }
             $("#btn-guardar-matriz").prop('disabled', false);
             $("#btn-guardar-matriz").html('<i class="fas fa-save"></i> Guardar Diseño Piso');
@@ -559,5 +555,3 @@ function guardar_matrix()
         }
     });
 }
-
-

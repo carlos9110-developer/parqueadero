@@ -1,4 +1,5 @@
-<?php require(RUTA_APP . '/Views/inc/header_2.php'); ?>
+<?php
+require(RUTA_APP . '/Views/inc/header_2.php'); ?>
 
 <style type="text/css">
 	.caja-item-menu{
@@ -7,7 +8,7 @@
 	    padding-top: 15px;
 	    padding-bottom: 15px;
 	    display: flex;
-	    cursor: pointer;
+	    /*cursor: pointer;*/
 	    border-radius: 15px;
 	}
 	.caja-icono-item-menu-1{
@@ -20,8 +21,11 @@
 	.caja-texto-item-menu-1{
 		margin-left: 10px;
 	}
-	.span-item-menu{
+	.span-item-menu, .a-item-menu{
 		font-size: 20px;
+	}
+	.a-item-menu{
+		color: black;
 	}
 </style>
 
@@ -38,7 +42,7 @@
           						<i class="icono-item-menu fas fa-plus-square"></i>
           					</div>
           					<div class="caja-texto-item-menu-1">
-          						<span class="span-item-menu">Registrar Ingreso</span>
+          						<a class="a-item-menu" href="<?php echo RUTA_URL ?>/RegistroIngreso">Registrar Ingreso</a>
           					</div>
           				</div>
           			</div>

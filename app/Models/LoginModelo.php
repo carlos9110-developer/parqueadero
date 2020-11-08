@@ -118,7 +118,7 @@ class LoginModelo
     // metodo donde se trae la información de un determinado usuario
     public function infoUsuario2(string $user, string $nit)
     {
-        $this->db->query("SELECT us_par.id,us.nombre FROM usuarios_parqueadero AS us_par INNER JOIN usuarios AS us ON us_par.id_usuario=us.id INNER JOIN parqueaderos AS par ON us_par.id_parqueadero=par.id  WHERE us_par.user=:user AND us_par.estado=:estado_1 AND us.estado=:estado_2 AND par.nit=:nit ");
+        $this->db->query("SELECT us_par.id as id_usuario,us.nombre,par.id as id_parqueadero FROM usuarios_parqueadero AS us_par INNER JOIN usuarios AS us ON us_par.id_usuario=us.id INNER JOIN parqueaderos AS par ON us_par.id_parqueadero=par.id  WHERE us_par.user=:user AND us_par.estado=:estado_1 AND us.estado=:estado_2 AND par.nit=:nit ");
         $this->db->bind(':user',$user);
         $this->db->bind(':estado_1',"Activado");
         $this->db->bind(':estado_2',"Activado");

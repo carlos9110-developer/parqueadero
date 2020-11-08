@@ -12,7 +12,7 @@ class Login extends Controller
     public function index()
     {
         $datos = [
-            'titulo' => 'Login',
+            'titulo' => 'Login'
         ];
         $this->vista('Login', $datos);
     }
@@ -21,12 +21,10 @@ class Login extends Controller
     public function ingresar()
     {
         $datos = [
-            'titulo' => 'Login',
+            'titulo' => 'Login'
         ];
         $this->vista('Login2', $datos);
     }
-
-
 
     /**
      * EL método iniciarSesion se encarga de procesar el login, recibe los parametros por $_POST y si es correcto declara las variables de sesión y  redirecciona a la vista usuarios
@@ -70,19 +68,18 @@ class Login extends Controller
             switch ($this->loginModelo->login2($user,$pass,$nit)) {
                 case 1:
                     session_start();
+                    $this->result = $this->loginModelo->infoUsuario2($user,$nit);
                     $_SESSION['user_login_status'] = 1;
-                    $this->result = $this->loginModelo->infoUsuario2($user,$pass,$nit);
-                    $_SESSION['id_user']   = $this->result->id;
-                    $_SESSION['name_user'] = $this->result->nombre;
-                    //exit(print_r($_SESSION));
+                    $_SESSION['id_user']           = $this->result->id_usuario;
+                    $_SESSION['name_user']         = $this->result->nombre;
+                    $_SESSION['id_parqueadero']    = $this->result->id_parqueadero;
+                    
                     redireccionar('Inicio/InicioSistema');
                 break;
-
                 case 2:
                     redireccionar('Login/ingresar?userBad');
                     $_POST = array();
                 break;
-
                 case 3:
                     redireccionar('Login/ingresar?psBad');
                     $_POST = array();

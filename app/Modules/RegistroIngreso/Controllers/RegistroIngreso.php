@@ -26,11 +26,15 @@ class RegistroIngreso extends Controller
     // metodo donde se retorna la vista que contiene la lista de todos los usuarios
     public function index()
     {
-
+        if (strlen(session_id()) < 1) 
+        {
+            session_start();
+        }
         $datos = [
-            'titulo_vista' => 'Registro Ingreso'
+            'titulo_vista' => 'Registro Ingreso',
+            'listaMarcas'  => $this->objModelo->listadoMarcas(),
+            'listaPisos'   => $this->objModelo->listadoPisos($_SESSION['id_parqueadero'])
         ];
-
         $this->vista('Registro', $datos, $this->nombreModulo);
     }
 

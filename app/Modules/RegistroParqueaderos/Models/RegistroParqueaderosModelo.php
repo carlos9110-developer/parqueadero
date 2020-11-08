@@ -223,7 +223,7 @@ class RegistroParqueaderosModelo
     // metodo donde se trae la información de un determinado piso
     public function traerInfoPiso(int $idPiso)
     {
-        $this->response["info_parqueadero"] = $this->taerNumColumnasAndNumFilasPiso($idPiso);
+        $this->response["info_piso"] = $this->taerNumColumnasAndNumFilasPiso($idPiso);
         $this->response["puestos_piso"] =    $this->taerPuestosPiso($idPiso);
         return $this->response;
     }
@@ -240,7 +240,7 @@ class RegistroParqueaderosModelo
     // metodo para traer los puestos de un determinado piso
     public function taerPuestosPiso(int $idPiso)
     {
-        $this->db->query(" SELECT * FROM puestos WHERE id_piso=:id_piso ");
+        $this->db->query(" SELECT * FROM puestos WHERE id_piso=:id_piso ORDER BY id ASC ");
         $this->db->bind(':id_piso',$idPiso);
         return $this->db->registros();
     }

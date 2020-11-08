@@ -13,4 +13,4 @@ require_once 'Helpers/Helper.php';
 //Cargador automatico de objetos, gracias a estas lineas de codigo no tenemos que requerir los archivos de librerias para realizar herencia
 spl_autoload_register(function ($nombreClase) {
     require_once 'Lib/' . $nombreClase . ".php";
-});
+}); 

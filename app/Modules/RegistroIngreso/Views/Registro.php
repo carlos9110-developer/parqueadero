@@ -1,4 +1,94 @@
-<?php require(RUTA_APP . '/Views/inc/header_2.php'); ?>
+<?php
+require(RUTA_APP . '/Views/inc/header_2.php');
+?>
+
+<style>
+    #btn-ver-informacion {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    height: 50px;
+}
+
+#btn-configuracion-plano {
+    width: 100%;
+    height: 50px;
+}
+
+#img-muestra {
+    width: 150px;
+    height: 150px;
+    margin-top: 10px;
+}
+
+.btn-config-pisos {
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.btn-default {
+    background: #dbe0e4;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+#btn-ver-plano-completo {
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.btn-columna {
+    margin-right: 5px;
+}
+
+#div-btn-guardar-fila {
+    margin-top: 10px;
+}
+
+#btn-guardar-filas-columnas-matrix {
+    width: 80%;
+    padding-bottom: 1px;
+    padding-top: 5px;
+}
+
+.div-columna-matrix{
+    width: 50px;
+    height: 50px
+}
+
+.flex{
+    display: flex;
+}
+
+.columna-matrix{
+    width: 50px;
+    height: 50px;
+    border: 1px solid #af9d9d;
+    padding-top: 2px;
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+#btn-guardar-matriz{
+    margin-left: 20px;
+}
+
+#div-imprimir-matriz{
+    margin-top: 1%;
+    margin-left: 1%;
+}
+
+.span-contador-columna-fila
+{
+    font-size: 13px;
+}
+</style>
 
 <div class="container-fluid">
     <div class="card">
@@ -45,6 +135,9 @@
                         </div>
                         <select id="marca-input" name="marca-input" class="form-control">
                             <option value="">Seleccione la marca</option>
+                            <?php foreach($datos['listaMarcas'] as $marca  ): ?>
+                                <option value="<?= $marca->marca ?>"><?= $marca->marca ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
@@ -55,6 +148,8 @@
                         </div>
                         <select id="tipo-input" name="tipo-input" class="form-control">
                             <option value="">Seleccione tipo vehículo</option>
+                            <option value="Moto">Moto</option>
+                            <option value="Carro">Carro</option>
                         </select>
                     </div>
                 </div>
@@ -63,10 +158,20 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1"><i class="fas fa-sort-numeric-up"></i></span>
                         </div>
-                        <select id="tipo-input" name="tipo-input" class="form-control">
+                        <select onchange="eleccionPiso(this.value);" id="tipo-input" name="tipo-input" class="form-control">
                             <option value="">Seleccione el piso</option>
+                            <?php foreach($datos['listaPisos'] as $piso  ): ?>
+                                <option value="<?= $piso->id ?>"><?= $piso->piso ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="div-imprimir-matriz"></div>
                 </div>
             </div>
             

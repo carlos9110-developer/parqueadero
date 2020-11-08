@@ -9,22 +9,26 @@ class Core
     {
         $url = $this->getUrl();
         //print_r($this->getUrl());
-        //Buscar en Conttroladores si el controlador llamado existe
-        if (file_exists('../app/Controllers/' . ucwords($url[0]) . '.php')) {
-            //Si el controlador existe se setea como controlador por defecto, convirtiendo a mayusculas el primer caracter de cada cadena, 
-            //por eso se debe utilizar camelCase en el nombre de los archivos y clases de controladores.
-            $this->controladorActual = ucwords($url[0]);
-            //Unset indice
-            unset($url[0]);
-        } else {
-            //Buscar en Conttroladores si el controlador llamado existe en Plugins
-            if (file_exists('../app/Modules/' . ucwords($url[0]) . '/Controllers/' . ucwords($url[0]) . '.php')) {
-                //Si el controlador existe se setea como controlador por defecto
+        if(isset($url[0])){
+            //Buscar en Conttroladores si el controlador llamado existe
+            if (file_exists('../app/Controllers/' . ucwords($url[0]) . '.php')) {
+                //Si el controlador existe se setea como controlador por defecto, convirtiendo a mayusculas el primer caracter de cada cadena, 
+                //por eso se debe utilizar camelCase en el nombre de los archivos y clases de controladores.
                 $this->controladorActual = ucwords($url[0]);
-                //Unset Indice
+                //Unset indice
                 unset($url[0]);
+            } else {
+                //Buscar en Conttroladores si el controlador llamado existe en Plugins
+                if (file_exists('../app/Modules/' . ucwords($url[0]) . '/Controllers/' . ucwords($url[0]) . '.php')) {
+                    //Si el controlador existe se setea como controlador por defecto
+                    $this->controladorActual = ucwords($url[0]);
+                    //Unset Indice
+                    unset($url[0]);
+                }
             }
         }
+
+        
         if (file_exists('../app/Controllers/' . ucwords($this->controladorActual) . '.php')) {
             // Requerir el controlador
             require_once '../app/Controllers/' . ucwords($this->controladorActual) . '.php';

@@ -17,7 +17,7 @@
     
     <?php if(isset($_GET['userBad'])):  ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Error</strong> El usuario no existe.
+            <strong>Error</strong> El usuario no existe o se encuentra inactivo.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -40,11 +40,14 @@
                 <img class="img-fluid" src="<?= RUTA_LOGO ?>" alt="">
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
-                <form id="form-login" action="<?php echo RUTA_URL ?>/Login/iniciarSesion" method="POST">
-                    <input type="hidden" name="op" id="op" value="login">
+                <form id="form-login" action="<?php echo RUTA_URL ?>/Login/iniciarSesion2" method="POST">
                     <div class="form-group">
-                        <label for="user">Email</label>
-                        <input type="text" class="form-control" id="user" name="user" aria-describedby="email-input" placeholder="Digite el usuario" required>
+                        <label for="nit">Nit</label>
+                        <input type="text" class="form-control" id="nit" name="nit" aria-describedby="nit" placeholder="Digite el nit del parqueadero" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user">Usuario</label>
+                        <input type="text" class="form-control" id="user" name="user" aria-describedby="user" placeholder="Digite el usuario" required>
                     </div>
                     <div class="form-group">
                         <label for="pass">Password</label>
@@ -55,5 +58,7 @@
             </div>
         </div>
     </div>
+    <?php require(RUTA_APP . '/Views/inc/footer2.php'); ?>
 
-    <?php require(RUTA_APP . '/Views/inc/footer.php'); ?>
+</body>
+</html>

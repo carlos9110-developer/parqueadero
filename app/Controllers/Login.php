@@ -17,6 +17,17 @@ class Login extends Controller
         $this->vista('Login', $datos);
     }
 
+    // metodo que carga la vista del login para el inicio de sesion de los usuarios diferentes a super_administrador
+    public function ingresar()
+    {
+        $datos = [
+            'titulo' => 'Login',
+        ];
+        $this->vista('Login2', $datos);
+    }
+
+
+
     /**
      * EL método iniciarSesion se encarga de procesar el login, recibe los parametros por $_POST y si es correcto declara las variables de sesión y  redirecciona a la vista usuarios
      * The initSession method is responsible for processing the login, receives the parameters for $ _POST and if it is correct declares the session variables and redirects to the users view
@@ -47,6 +58,36 @@ class Login extends Controller
                     $_POST = array();
                 break;
             }    
+        }
+    }
+
+    public function iniciarSesion2()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['user']) && isset($_POST['pass']) && isset($_POST['nit']) && !empty($_POST['user']) && !empty($_POST['pass']) && !empty($_POST['nit'])  ) {
+            $user = $_POST['user'];
+            $pass = $_POST['pass'];
+            $nit  = $_POST['nit'];
+            switch ($this->loginModelo->login2($user,$pass,$nit)) {
+                case 1:
+                    session_start();
+                    $_SESSION['user_login_status'] = 1;
+                    $this->result = $this->loginModelo->infoUsuario2($user,$pass,$nit);
+                    $_SESSION['id_user']   = $this->result->id;
+                    $_SESSION['name_user'] = $this->result->nombre;
+                    //exit(print_r($_SESSION));
+                    redireccionar('Inicio/InicioSistema');
+                break;
+
+                case 2:
+                    redireccionar('Login/ingresar?userBad');
+                    $_POST = array();
+                break;
+
+                case 3:
+                    redireccionar('Login/ingresar?psBad');
+                    $_POST = array();
+                break;
+            }  
         }
     }
 

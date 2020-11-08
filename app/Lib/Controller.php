@@ -135,10 +135,10 @@ class Controller extends Core
         switch ($type) {
             case 'img':
               if($nombre != false): 
-                header('Content-Type: image/jpg');//Se define la cabecera para el tipo de archivo solicitado
+                header('Content-Type: image/*');//Se define la cabecera para el tipo de archivo solicitado
                 readfile(RUTA_MODULOS. $ruta.SEPARADOR.$nombre);
               else: 
-                header('Content-Type: image/jpg');//Se define la cabecera para el tipo de archivo solicitado
+                header('Content-Type: image/*');//Se define la cabecera para el tipo de archivo solicitado
                 readfile(RUTA_UPLOAD.SEPARADOR. $ruta);
               endif;
             break;

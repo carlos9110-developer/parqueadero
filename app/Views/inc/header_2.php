@@ -1,8 +1,5 @@
-
-    
 <!DOCTYPE html>
 <html lang="en">
-<input hidden id="ruta_app" value="<?php  echo RUTA_URL ?>"><!-- -->
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,7 +13,6 @@
 	<script src="<?php echo RUTA_URL ?>/public/js/popper.min.js"></script>
 	<script src="<?php echo RUTA_URL ?>/public/js/bootstrap.min.js"></script>
 	<script src="https://kit.fontawesome.com/5ab2600c94.js" crossorigin="anonymous"></script>
-	<script src="<?php echo RUTA_URL ?>/public/js/funciones.js"></script>
 </head>
 
 <body>

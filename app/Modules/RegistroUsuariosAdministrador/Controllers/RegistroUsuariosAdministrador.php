@@ -118,10 +118,10 @@ class RegistroUsuariosAdministrador extends Controller
     {
         if(isset($_GET['img']) || isset($_GET['js']) || isset($_GET['css']) || isset($_GET['pdf'])){
             if(isset($_GET['img'])){
-                 return $this->filesManager($_GET['img'], false, 'img');
+                return $this->filesManager($_GET['img'], false, 'img');
             }
             if(isset($_GET['js'])){
-             return $this->filesManager($this->nombreModulo, $_GET['js'], 'js');
+                return $this->filesManager($this->nombreModulo, $_GET['js'], 'js');
             }
             if(isset($_GET['css'])){
 

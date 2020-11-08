@@ -25,7 +25,7 @@ define('RUTA_MODULOS', RUTA_APP . SEPARADOR . 'Modules' . SEPARADOR);// ruta par
 //RUTA UPLOAD
 define('RUTA_UPLOAD', RUTA_APP . SEPARADOR . 'Upload'.SEPARADOR);// ruta para los archivos
 //  RUTA DEL LOGO
-define('RUTA_LOGO', 'http://localhost:8080/parqueadero/public/img/logo.jpeg'); // este se cambiaria en el servidor:8080
+define('RUTA_LOGO', 'http://localhost:8080/parqueadero/public/img/logo_parking.jpg'); // este se cambiaria en el servidor:8080
 
 //  VERSIÓN
 define('VERSION', '2.1');

@@ -2,8 +2,6 @@
 /*****
  * Archivo ayudante, que contiene funciones generales que se pueden utilizar en varios archivos(Controladores)
  */
-
-
 // función que redirecciona donde queramos
 function redireccionar($pagina)
 {

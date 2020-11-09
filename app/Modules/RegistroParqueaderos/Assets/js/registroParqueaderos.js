@@ -520,7 +520,13 @@ function columna_seleccionada(fila, columna) {
 function guardar_matrix() {
     let arrayJson = JSON.stringify(matrix);
     console.log("este es el array codificado nuev ccarlos", arrayJson);
-    let objeto = { parqueadero: idParqueaderos, piso: piso_elejido, filas: num_filas, columnas: num_columas, matrix: arrayJson };
+    let objeto = {
+        parqueadero: idParqueaderos,
+        piso: piso_elejido,
+        filas: num_filas,
+        columnas: num_columas,
+        matrix: arrayJson
+    };
     let url_get = "";
     if (editar_insertar == "I") {
         url_get = "RegistroParqueaderos/guardarMatrixPiso";

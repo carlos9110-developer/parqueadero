@@ -199,6 +199,9 @@
                                                             <span class="input-group-text" id="basic-addon1"> #Filas</span>
                                                         </div>
                                                         <input   min="1" type="number"  class="form-control" placeholder="# Filas" id="num_filas">
+
+
+                                                        
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">

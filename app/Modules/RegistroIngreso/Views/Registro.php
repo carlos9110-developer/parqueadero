@@ -3,65 +3,6 @@ require(RUTA_APP . '/Views/inc/header_2.php');
 ?>
 
 <style>
-    #btn-ver-informacion {
-    width: 100%;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    height: 50px;
-}
-
-#btn-configuracion-plano {
-    width: 100%;
-    height: 50px;
-}
-
-#img-muestra {
-    width: 150px;
-    height: 150px;
-    margin-top: 10px;
-}
-
-.btn-config-pisos {
-    width: 100%;
-    height: 50px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-}
-
-.btn-default {
-    background: #dbe0e4;
-}
-
-.cursor {
-    cursor: pointer;
-}
-
-#btn-ver-plano-completo {
-    width: 100%;
-    height: 50px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-}
-
-.btn-columna {
-    margin-right: 5px;
-}
-
-#div-btn-guardar-fila {
-    margin-top: 10px;
-}
-
-#btn-guardar-filas-columnas-matrix {
-    width: 80%;
-    padding-bottom: 1px;
-    padding-top: 5px;
-}
-
-.div-columna-matrix{
-    width: 50px;
-    height: 50px
-}
-
 .flex{
     display: flex;
 }
@@ -75,13 +16,13 @@ require(RUTA_APP . '/Views/inc/header_2.php');
     padding-left: 8px;
 }
 
-#btn-guardar-matriz{
-    margin-left: 20px;
+.columna-libre{
+    background-color: #a9efba;
 }
 
 #div-imprimir-matriz{
     margin-top: 1%;
-    margin-left: 1%;
+    cursor: pointer;
 }
 
 .span-contador-columna-fila
@@ -92,10 +33,10 @@ require(RUTA_APP . '/Views/inc/header_2.php');
 
 <div class="container-fluid">
     <div class="card">
-          <div class="card-header">
+        <div class="card-header">
             <?php   echo $datos['titulo_vista'] ?>
-          </div>
-          <div class="card-body">
+        </div>
+        <div class="card-body">
 
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-3">
@@ -105,7 +46,7 @@ require(RUTA_APP . '/Views/inc/header_2.php');
                         </div>
                         <input pattern="[0-9]+" type="number" class="form-control" placeholder="Documento Usuario" name="documento-input" id="documento-input" required>
                         <div class="input-group-append">
-                            <button type="button" class="btn btn-primary" onclick="abrirRegistrarUsuario();"><i class="fas fa-plus"></i></button>
+                            <button type="button" class="btn btn-success" onclick="abrirRegistrarUsuario();"><i class="fas fa-plus"></i></button>
                         </div>
                     </div>
                 </div>
@@ -148,8 +89,8 @@ require(RUTA_APP . '/Views/inc/header_2.php');
                         </div>
                         <select id="tipo-input" name="tipo-input" class="form-control">
                             <option value="">Seleccione tipo vehículo</option>
-                            <option value="Moto">Moto</option>
-                            <option value="Carro">Carro</option>
+                            <option value="M">Moto</option>
+                            <option value="C">Carro</option>
                         </select>
                     </div>
                 </div>
@@ -169,13 +110,25 @@ require(RUTA_APP . '/Views/inc/header_2.php');
             </div>
 
 
-            <div class="row">
-                <div class="col-lg-12">
+            <div class="row" id="div-plano">
+                <div class="col-lg-3">
+                    <div class="card" style="width: 200px;">
+                        <div class="card-header">
+                            Colores Estados
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item columna-libre">Libre</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9">
                     <div id="div-imprimir-matriz"></div>
                 </div>
             </div>
             
-          </div>
+        </div>
     </div>
 </div>
 

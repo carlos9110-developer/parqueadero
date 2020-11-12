@@ -1,5 +1,4 @@
 <?php
-
 class RegistroIngreso extends Controller
 {
     public   $response;
@@ -15,8 +14,6 @@ class RegistroIngreso extends Controller
         $this->objModelo     = $this->modelo('RegistroIngresoModelo',$this->nombreModulo);
         $this->response      = array();
     }
-
-    
 
     public function __destruct()
     {
@@ -59,5 +56,44 @@ class RegistroIngreso extends Controller
 
         }
     }
+
+    // función donde se consulta la existencia de un determinado cliente
+    public function consultarCliente(int $cedula)
+    {
+        $this->result  =   $this->objModelo->consultarCliente($cedula);
+        if($this->result==false){
+            $this->response['res'] = false;
+        }else{
+            $this->response['res'] = true;
+            $this->response['infoCliente'] = $this->result;
+        }
+        responderJson($this->response);
+    } 
+
+    // función donde se registra el parquedo de un determinado vehículo
+    public function registroParqueo()
+    {
+        
+        switch ($this->objModelo->registroParqueo($_POST)) {
+            case 1:
+                $this->cargarArrayResponse(true,"Registro parqueo realizado con exito");
+            break;
+            case 2:
+                $this->cargarArrayResponse(false,"Error, se presento un problema al realizar el registro, por favor intentelo de nuevo");
+            break;
+            case 3:
+                $this->cargarArrayResponse(false,"Error, no se encontro ningún cliente con la cédula digitada");
+            break;
+        }
+
+        responderJson($this->response);
+    }
     
+    // metodo donde se carga el array response
+    public function cargarArrayResponse(bool $res,string $msg)
+    {
+        $this->response['res'] = $res;
+        $this->response['msg'] = $msg;
+    }
+
 }

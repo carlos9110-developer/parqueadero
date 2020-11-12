@@ -44,7 +44,7 @@ class Core
             if (method_exists($this->controladorActual, $url[1])) {
                 //Chequeamos el método
                 $this->metodoActual = $url[1];
-                unset($url[1]);
+                unset($url[1]);// destruye la posición del array
             }
         }
         //Para probar traer método
@@ -52,7 +52,7 @@ class Core
         //Obtener parametros, como ya se han borrado las posiciones del arreglo si todavia quedan valores esos son los parametros, por lo tanto los asignamos a nuestra variable en un array indexado
         $this->parametros = $url ? array_values($url) : [];
         //llamar Callback con parametros Array, se llama la acción a realizar, como parametros se envia la clase instanciada, el método y los parametros
-        call_user_func_array([$this->controladorActual, $this->metodoActual], $this->parametros);
+        call_user_func_array([$this->controladorActual, $this->metodoActual], $this->parametros);// llama a la funci
     }
 
     //Función para gestionar las Url,s

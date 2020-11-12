@@ -14,14 +14,12 @@ class RegistroUsuariosAdministradorModelo
 
     public function insertar(array $datos)
     {
-        $clave = password_hash($datos['cedula'],PASSWORD_DEFAULT);
         try {  
-            $this->db->query(" INSERT INTO  usuarios(cedula,nombre,telefono,correo,user,contrasena,fecha_registro) VALUES(:cedula,:nombre,:telefono,:correo,:contrasena,:fecha_registro)  ");
+            $this->db->query(" INSERT INTO  usuarios(cedula,nombre,telefono,correo,fecha_registro) VALUES(:cedula,:nombre,:telefono,:correo,:fecha_registro)  ");
             $this->db->bind(':cedula',$datos['cedula']);
             $this->db->bind(':nombre',$datos['nombre']);
             $this->db->bind(':telefono',$datos['telefono']);
             $this->db->bind(':correo',$datos['correo']);
-            $this->db->bind(':contrasena',$clave);
             $this->db->bind(':fecha_registro',$this->fechaActual);
             $this->db->execute();
             return true;

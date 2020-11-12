@@ -9,10 +9,12 @@
 	<title><?= NOMBRE_APP; ?></title>
 	<link href="<?php echo RUTA_URL ?>/public/css/cargando.css" rel="stylesheet">
 	<link rel="stylesheet" href="<?php echo RUTA_URL ?>/public/css/bootstrap.min.css">
+	<link href="<?php echo RUTA_URL ?>/public/alertifyjs/css/alertify.min.css" rel="stylesheet">
 	<script src="<?php echo RUTA_URL ?>/public/js/jquery-3.2.1.min.js"></script>
 	<script src="<?php echo RUTA_URL ?>/public/js/popper.min.js"></script>
 	<script src="<?php echo RUTA_URL ?>/public/js/bootstrap.min.js"></script>
 	<script src="https://kit.fontawesome.com/5ab2600c94.js" crossorigin="anonymous"></script>
+	<script src="<?php echo RUTA_URL ?>/public/alertifyjs/alertify.min.js"></script>
 </head>
 
 <body>

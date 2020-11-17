@@ -1,17 +1,18 @@
 <?php
-class RegistroIngreso extends Controller
+class RegistroSalida extends Controller
 {
     public   $response;
     private  $objModelo;
     private  $result;
     public   $nombreModulo;
+    private  $fechaActual;
 
     public function __construct()
     {
         // verifica que el usuario este logueado correctamente y esten definidos la sesiones
         $this->validadorSesion();
         $this->nombreModulo  = __CLASS__;
-        $this->objModelo     = $this->modelo('RegistroIngresoModelo',$this->nombreModulo);
+        $this->objModelo     = $this->modelo('RegistroSalidaModelo',$this->nombreModulo);
         $this->response      = array();
     }
 
@@ -23,17 +24,30 @@ class RegistroIngreso extends Controller
     // metodo donde se retorna la vista que contiene la lista de todos los usuarios
     public function index()
     {
+        $this->fechaActual =  date('Y-m-d');
         if (strlen(session_id()) < 1) 
         {
             session_start();
         }
         $datos = [
-            'tituloModulo' => 'Registro Ingreso Vehiculos',
-            'titulo_vista' => 'Registro Ingreso',
-            'listaMarcas'  => $this->objModelo->listadoMarcas(),
-            'listaPisos'   => $this->objModelo->listadoPisos($_SESSION['id_parqueadero'])
+            'tituloModulo' => 'Registro Salida',
+            'titulo_vista' => 'Registro Salida Vehículos',
+            'fechaFinFiltro' => $this->fechaActual,
+            'fechaInicioFiltro' => date("Y-m-d",strtotime($this->fechaActual."- 1 month"))
         ];
-        $this->vista('Registro', $datos, $this->nombreModulo);
+        $this->vista('SalidaVehiculos', $datos, $this->nombreModulo);
+    }
+
+    // metodo donde se consulta la información para registrar la salid de un determinado vehículo
+    public function TraerInfoParaSalida(int $id, string $tipo)
+    {
+        responderJson($this->objModelo->TraerInfoParaSalida($id, $tipo));
+    }
+
+    // métodod donde se retorna el json retornado del modelo con los datos necesarios para cargar el dataTable
+    public function listar()
+    {
+        responderJson($this->objModelo->listar());
     }
 
     // metodo que retorna un archivo vinculado en la vista, sea un archivo css o un javascript
@@ -58,38 +72,6 @@ class RegistroIngreso extends Controller
         }
     }
 
-    // función donde se consulta la existencia de un determinado cliente
-    public function consultarCliente(int $cedula)
-    {
-        $this->result  =   $this->objModelo->consultarCliente($cedula);
-        if($this->result==false){
-            $this->response['res'] = false;
-        }else{
-            $this->response['res'] = true;
-            $this->response['infoCliente'] = $this->result;
-        }
-        responderJson($this->response);
-    } 
-
-    // función donde se registra el parquedo de un determinado vehículo
-    public function registroParqueo()
-    {
-        
-        switch ($this->objModelo->registroParqueo($_POST)) {
-            case 1:
-                $this->cargarArrayResponse(true,"Registro parqueo realizado con exito");
-            break;
-            case 2:
-                $this->cargarArrayResponse(false,"Error, se presento un problema al realizar el registro, por favor intentelo de nuevo");
-            break;
-            case 3:
-                $this->cargarArrayResponse(false,"Error, no se encontro ningún cliente con la cédula digitada");
-            break;
-        }
-
-        responderJson($this->response);
-    }
-    
     // metodo donde se carga el array response
     public function cargarArrayResponse(bool $res,string $msg)
     {

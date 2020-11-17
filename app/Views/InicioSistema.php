@@ -52,7 +52,7 @@ require(RUTA_APP . '/Views/inc/header_2.php'); ?>
           						<i class="icono-item-menu fas fa-plus-square"></i>
           					</div>
           					<div class="caja-texto-item-menu-1">
-          						<span class="span-item-menu">Registrar Ingreso</span>
+							  <a class="a-item-menu" href="<?php echo RUTA_URL ?>/RegistroSalida">Registrar Salida</a>
           					</div>
           				</div>
           			</div>

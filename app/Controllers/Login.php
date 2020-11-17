@@ -26,6 +26,8 @@ class Login extends Controller
         $this->vista('Login2', $datos);
     }
 
+
+
     /**
      * EL método iniciarSesion se encarga de procesar el login, recibe los parametros por $_POST y si es correcto declara las variables de sesión y  redirecciona a la vista usuarios
      * The initSession method is responsible for processing the login, receives the parameters for $ _POST and if it is correct declares the session variables and redirects to the users view

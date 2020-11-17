@@ -21,6 +21,7 @@ class Inicio extends Controller
     public function InicioSistema()
     {
         $datos = [
+            'tituloModulo' => 'Menú',
             'titulo_vista' => 'Menú del Sistema'
         ];
         $this->vista('InicioSistema', $datos);

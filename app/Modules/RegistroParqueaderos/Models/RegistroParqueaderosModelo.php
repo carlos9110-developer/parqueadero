@@ -45,6 +45,41 @@ class RegistroParqueaderosModelo
         }
     }
 
+
+    /*
+    public function insertar(array $datos)
+    {
+        $tmp_name = $_FILES['logo']['tmp_name'];
+        // primero verificamos que si se haya cargado el archivo
+        if (is_uploaded_file($tmp_name))
+        {
+            $img_file = $_FILES['logo']['name'];
+            $img_type = explode(".",$img_file);
+            $img_type = $img_type[1];
+            if ($img_type=="png" || $img_type=="jpeg" ||  $img_type=="jpg" )
+            {
+                if (move_uploaded_file($tmp_name, 'img/logos_parqueaderos/nuevo.jpg'))
+                {
+                    $this->response = $this->guardar_informacion($datos);
+                    if(!rename("img/logos_parqueaderos/nuevo.jpg", "img/logos_parqueaderos/".$this->response['id'].".jpg")){
+                        $this->response['msg']     = "Información parqueadero registrada exitosamente, pero se presento un problema al guardar la imagen por favor intentelo de nuevo";
+                    }
+                    else{
+                        $this->registrar_registro_foto($this->response['id']);
+                    }
+                    return $this->response;
+                }
+            }else{
+               return $this->guardar_informacion($datos);  
+            }
+        }
+        else
+        {
+            return $this->guardar_informacion($datos);
+        }
+    }
+    */
+
     public function guardarMatrixPiso(array $datos)
     {
         $arrayColumnas  =json_decode($datos["matrix"], true );
@@ -309,39 +344,7 @@ class RegistroParqueaderosModelo
         } 
     }
 
-    // método donde se desactiva un determinado usuario
-    function desactivarUsuario(int $id)
-    {
-        try {  
-            $this->db->con->beginTransaction();
-            $this->db->query(" UPDATE users SET estado=:estado WHERE id=:id  ");
-            $this->db->bind(':estado',"Desactivado");
-            $this->db->bind(':id',$id);
-            $this->db->execute();
-            $this->db->con->commit();
-            return true;
-        } catch (Exception $e) {
-            $this->db->con->rollBack();
-            return false;
-        }
-    }
 
-    // método donde se activa un determinado usuario
-    function activarUsuario(int $id)
-    {
-        try {  
-            $this->db->con->beginTransaction();
-            $this->db->query(" UPDATE users SET estado=:estado WHERE id=:id  ");
-            $this->db->bind(':estado',"Activado");
-            $this->db->bind(':id',$id);
-            $this->db->execute();
-            $this->db->con->commit();
-            return true;
-        } catch (Exception $e) {
-            $this->db->con->rollBack();
-            return false;
-        }
-    }
 
 
 }

@@ -15,6 +15,20 @@
 	<script src="<?php echo RUTA_URL ?>/public/js/bootstrap.min.js"></script>
 	<script src="https://kit.fontawesome.com/5ab2600c94.js" crossorigin="anonymous"></script>
 	<script src="<?php echo RUTA_URL ?>/public/alertifyjs/alertify.min.js"></script>
+	<?php if( $datos['tituloModulo']=='Registro Salida'): ?>
+		<link rel="stylesheet" type="text/css" href="<?php echo RUTA_URL ?>/public/DataTables/datatables.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo RUTA_URL ?>/public/DataTables/responsivedataTablesmin.css">
+		<!-- libreiras dataTable -->
+		<script type="text/javascript" charset="utf8" src="<?php echo RUTA_URL ?>/public/DataTables/datatables.js"></script>
+		<script type="text/javascript" charset="utf8" src="<?php echo RUTA_URL ?>/public/DataTables/dataTablesresponsivemin.js"></script>
+		<!-- librerias para los botones de javascript -->
+		<script src="<?php echo RUTA_URL ?>/public/DataTables/response/dataTables.buttons.min.js"></script>
+		<script src="<?php echo RUTA_URL ?>/public/DataTables/response/jszip.min.js"></script>
+		<script src="<?php echo RUTA_URL ?>/public/DataTables/response/pdfmake.min.js"></script>
+		<script src="<?php echo RUTA_URL ?>/public/DataTables/response/vfs_fonts.js"></script>
+		<script src="<?php echo RUTA_URL ?>/public/DataTables/response/buttons.html5.min.js"></script>
+		<script src="<?php echo RUTA_URL ?>/public/DataTables/buttons.print.min.js"></script>
+  	<?php endif; ?>
 </head>
 
 <body>

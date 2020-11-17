@@ -29,6 +29,17 @@ class RegistroParqueaderos extends Controller
         $this->vista('RegistroParqueaderos', $datos, $this->nombreModulo);
     }
 
+    /*
+    public function index()
+    {
+        $datos = [
+            'titulo' => 'Registro Parqueaderos',
+        ];
+
+        $this->vista('RegistroParqueaderos', $datos, $this->nombreModulo);
+    }
+    */
+
     public function files()
     {
         if(isset($_GET['img']) || isset($_GET['js']) || isset($_GET['css']) || isset($_GET['pdf'])){
@@ -94,10 +105,18 @@ class RegistroParqueaderos extends Controller
      * The list method is responsible for listing users, paging the server side using the SSP class of datatables
      * @return json con los registros obtenidos 
      */
+    /*
     public function listar()
     {
         responderJson($this->registroParqueaderoModelo->listar());
-    }  
+    } 
+    */
+    
+    // metodo donde se lista la información de un parqueadero
+    public function listar()
+    {
+        
+    }
 
 
     /**

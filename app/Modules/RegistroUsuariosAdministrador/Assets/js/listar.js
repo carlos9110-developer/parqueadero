@@ -1,7 +1,7 @@
 var tbl_usuarios;
-function inicio()
-{
-	listar();
+
+function inicio() {
+    listar();
 }
 inicio();
 
@@ -42,7 +42,10 @@ function listar() {
                 data: "id",
 
                 "fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
-                    $(nTd).html(`<a class="btn btn-sm btn-warning" href="${ruta}/RegistroUsuariosAdministrador/editar/${oData.id}"><i class="fas fa-edit"></i></a><a class="btn btn-sm btn-primary" href="${ruta}/RegistroUsuariosAdministrador/asignarAdministracionParqueaderos/${oData.id}"><i class="fas fa-cogs"></i></a>`);
+                    $(nTd).html(
+                        `<a class="btn btn-sm btn-warning" href="${ruta}/RegistroUsuariosAdministrador/editar/${oData.id}"><i class="fas fa-edit"></i></a>` +
+                        `<a class="btn btn-sm btn-primary" href="${ruta}/RegistroUsuariosAdministrador/asignarAdministracionParqueaderos/${oData.id}"><i class="fas fa-cogs"></i></a>`
+                    );
                 }
             }
         ],
@@ -66,6 +69,3 @@ function listar() {
         ]
     });
 }
-
-
-

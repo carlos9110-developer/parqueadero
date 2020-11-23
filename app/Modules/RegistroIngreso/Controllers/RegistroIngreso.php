@@ -5,6 +5,7 @@ class RegistroIngreso extends Controller
     private  $objModelo;
     private  $result;
     public   $nombreModulo;
+    private  $fechaActual;
 
     public function __construct()
     {
@@ -35,6 +36,27 @@ class RegistroIngreso extends Controller
         ];
         $this->vista('Registro', $datos, $this->nombreModulo);
     }
+
+    // metodo donde se retorna la vista InformeIngresos
+    public function InformeIngresos()
+    {
+        $this->fechaActual =  date('Y-m-d');
+        $datos = [
+            'tituloModulo' => 'Registro Ingreso Vehículos',
+            'titulo_vista' => 'Informe Ingreso Vehículos',
+            'fechaFinFiltro' => $this->fechaActual,
+            'fechaInicioFiltro' => date("Y-m-d",strtotime($this->fechaActual."- 1 month"))
+        ];
+        $this->vista('InformeIngresos', $datos, $this->nombreModulo);
+    }
+
+
+    // metodo donde se retorna el json con las datos para listar la tabla de la vista InformeIngresos
+    public function ListarInformeIngresos()
+    {
+        responderJson($this->objModelo->ListarInformeIngresos($_GET));
+    }
+
 
     // metodo que retorna un archivo vinculado en la vista, sea un archivo css o un javascript
     public function files()

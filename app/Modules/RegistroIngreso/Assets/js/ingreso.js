@@ -287,14 +287,3 @@ function registroInformacionIngreso() {
         }
     });
 }
-
-
-
-
-/* otra forma de inicializar un objeto javascript
-var myCar = {
-make: 'Ford',
-model: 'Mustang',
-year: 1969
-};
-*/

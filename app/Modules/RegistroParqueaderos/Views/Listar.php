@@ -1,4 +1,7 @@
 <?php require(RUTA_APP . '/Views/inc/header.php'); ?>
+<style>
+    
+</style>
 <div id="wrapper">
 
     <?php require(RUTA_APP . '/Views/inc/sidebar.php'); ?>
@@ -9,7 +12,7 @@
             <?php require(RUTA_APP . '/Views/inc/navbar.php'); ?>
             <div class="container-fluid">
                 <div class="col-lg-12 text-right">
-                    <a class="btn btn-info" href="<?php echo RUTA_URL ?>/RegistroParqueaderos/insertar"><i class="fas fa-plus"></i> Nuevo Registro</a>
+                    <a class="btn btn-info" href="<?php echo RUTA_URL ?>/RegistroParqueaderos/Insertar"><i class="fas fa-plus"></i> Nuevo Registro</a>
                 </div>
                 <div class="card">
                         <div class="card-header">
@@ -28,6 +31,7 @@
                                         <th>Capacidad Carros</th>
                                         <th>Capacidad Motos</th>
                                         <th>Fecha Registro</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>

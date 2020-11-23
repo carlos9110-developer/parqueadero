@@ -40,12 +40,14 @@
                             <tr class="active">
                                 <th>ID</th>
                                 <th>Documento</th>
+                                <th>Tipo Vehículo</th>
                                 <th>Placa</th>
                                 <th>Marca</th>
                                 <th>Piso</th>
-                                <th>Fecha</th>
-                                <th>Hora</th>
-                                <th></th>
+                                <th>Fecha Ingreso</th>
+                                <th>Fecha Salida</th>
+                                <th># Horas</th>
+                                <th>Precio</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,38 +60,9 @@
 </div>
 
 
-<!-- MODALES -->
-<div id="modal-confirmar-salida" class="modal" tabindex="-1" role="dialog" data-backdrop='static' data-keyboard='false'>
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Información Salida</h5>
-                <button type="button" class="close" onclick="cerrarModalConfirmacionSalida()"  aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">    
-                    <div class="col-lg-12 text-center" id="div-cargar-info-salida">
 
-                    </div>        
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 text-center">
-                        <button type="button" onclick="cerrarModalConfirmacionSalida()"  class="btn btn-danger btn-md">Cancelar</button>
-                    </div>
-                    <div class="col-lg-6 text-center">
-                        <button onclick="registrarSalidaVehiculo();"  class="btn btn-success" type="button">Aceptar</button>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
-</div>
 
 <?php require(RUTA_APP . '/Views/inc/cargando.php'); ?>
 <?php require(RUTA_APP . '/Views/inc/footer2.php'); ?>
-<script src="<?php echo RUTA_URL?>/RegistroSalida/files?js=Assets/js/salida.js"></script>
+<script src="<?php echo RUTA_URL?>/RegistroIngreso/files?js=Assets/js/informeIngresos.js"></script>
 

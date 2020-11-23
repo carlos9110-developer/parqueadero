@@ -50,6 +50,17 @@ class RegistroSalida extends Controller
         responderJson($this->objModelo->listar());
     }
 
+    // método donde se realiza se realiza el registro de salida de un determinado vehículo
+    public function RegistrarSalidaVehiculo()
+    {
+        if($this->objModelo->RegistrarSalidaVehiculo($_POST)){
+            $this->cargarArrayResponse(true,"Salida vehículo registrada con exito");
+        }else{
+            $this->cargarArrayResponse(false,"Error, se presento un problema en el servidor, por favor intentelo de nuevo");
+        }
+        responderJson($this->response);
+    }
+
     // metodo que retorna un archivo vinculado en la vista, sea un archivo css o un javascript
     public function files()
     {

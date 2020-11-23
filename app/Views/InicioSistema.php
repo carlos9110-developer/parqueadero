@@ -1,6 +1,5 @@
 <?php
 require(RUTA_APP . '/Views/inc/header_2.php'); ?>
-
 <style type="text/css">
 	.caja-item-menu{
 	    border: 1px solid black;
@@ -27,6 +26,9 @@ require(RUTA_APP . '/Views/inc/header_2.php'); ?>
 	.a-item-menu{
 		color: black;
 	}
+	.container{
+		margin-top: 30px;
+	}
 </style>
 
 <div class="container">
@@ -37,34 +39,13 @@ require(RUTA_APP . '/Views/inc/header_2.php'); ?>
           <div class="card-body">
           		<div class="row">
           			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center">
-          				<div  class="caja-item-menu">
-          					<div class="caja-icono-item-menu-1">
-          						<i class="icono-item-menu fas fa-plus-square"></i>
-          					</div>
-          					<div class="caja-texto-item-menu-1">
-          						<a class="a-item-menu" href="<?php echo RUTA_URL ?>/RegistroIngreso">Registrar Ingreso</a>
-          					</div>
-          				</div>
+          				<a class="a-item-menu" href="<?php echo RUTA_URL ?>/RegistroIngreso"><img src="<?php echo RUTA_URL ?>/public/img/registro_ingreso.jpg" alt=""></a>
           			</div>
           			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center">
-          				<div  class="caja-item-menu">
-          					<div class="caja-icono-item-menu-1">
-          						<i class="icono-item-menu fas fa-plus-square"></i>
-          					</div>
-          					<div class="caja-texto-item-menu-1">
-							  <a class="a-item-menu" href="<?php echo RUTA_URL ?>/RegistroSalida">Registrar Salida</a>
-          					</div>
-          				</div>
+					  <a class="a-item-menu" href="<?php echo RUTA_URL ?>/RegistroSalida"><img src="<?php echo RUTA_URL ?>/public/img/registro_egreso.jpg" alt=""></a>
           			</div>
           			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center">
-          				<div  class="caja-item-menu">
-          					<div class="caja-icono-item-menu-1">
-          						<i class="icono-item-menu fas fa-plus-square"></i>
-          					</div>
-          					<div class="caja-texto-item-menu-1">
-          						<span class="span-item-menu">Registrar Ingreso</span>
-          					</div>
-          				</div>
+					  	<a class="a-item-menu" href="<?php echo RUTA_URL ?>/RegistroIngreso/InformeIngresos"><img src="<?php echo RUTA_URL ?>/public/img/informe_ingresos.jpg" alt=""></a>
           			</div>
           		</div>
 

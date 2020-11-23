@@ -1,0 +1,37 @@
+.flex {
+    display: flex;
+}
+
+.columna-matrix {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #af9d9d;
+    padding-top: 2px;
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.columna-libre {
+    background-color: #a9efba;
+}
+
+#div-imprimir-matriz {
+    margin-top: 1%;
+    cursor: pointer;
+}
+
+.span-contador-columna-fila {
+    font-size: 13px;
+}
+
+.columna-seleccionada {
+    background-color: #9090e6;
+}
+
+.columna-ocupada {
+    background-color: #e27878;
+}
+
+.container-fluid {
+    margin-top: 30px;
+}

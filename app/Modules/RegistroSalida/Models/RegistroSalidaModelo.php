@@ -16,6 +16,10 @@ class RegistroSalidaModelo
     // metodo donde se retorna un json con los datos necesarios para cargar el dataTable de la vista
     public function listar()
     {
+        if (strlen(session_id()) < 1) 
+        {
+            session_start();
+        }
         $table      = 'ingresos';
         // Table's primary key
         $primaryKey = 'id';
@@ -51,6 +55,51 @@ class RegistroSalidaModelo
         return SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraWhere, $groupBy, $having );
     }
 
+    // método donde se realiza se realiza el registro de salida de un determinado vehículo
+    public function RegistrarSalidaVehiculo(array $datos)
+    {
+        try {  
+            $this->db->con->beginTransaction();
+            $this->LiberarPuesto($this->RetornarIdPuesto($datos['idIngreso']));
+            $this->RegistroSalidaTablaIngresos($datos);
+            $this->db->execute();
+            $this->db->con->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->db->con->rollBack();
+            return false;
+        }
+    }
+
+    // método donde se registra la salida de un vehículo en la tabla ingresos
+    private function RegistroSalidaTablaIngresos(array $datos)
+    {
+        $this->db->query(" UPDATE  ingresos SET  salida=:salida,fecha_hora_salida=:fecha_hora_salida,horas=:horas,precio=:precio WHERE id=:id  ");
+        $this->db->bind(':salida',"1");
+        $this->db->bind(':fecha_hora_salida',$this->fechaHoraActual);
+        $this->db->bind(':horas',$datos['horas']);
+        $this->db->bind(':precio',$datos['valor']);
+        $this->db->bind(':id',$datos['idIngreso']);
+        $this->db->execute();
+    }
+
+    // métdodo donde se libera un determinado puesto
+    private function LiberarPuesto(int $idPuesto)
+    {
+        $this->db->query(" UPDATE  puestos SET  estado=:estado WHERE id=:id  ");
+        $this->db->bind(':estado',"L");
+        $this->db->bind(':id',$idPuesto);
+        $this->db->execute();
+    }
+
+    // metodo donde se consulta el id del puesto, a partir del id de ingreso
+    private function RetornarIdPuesto(int $idIngreso)
+    {
+        $this->db->query("SELECT id_puesto FROM ingresos  WHERE id=:id ");
+        $this->db->bind(':id',$idIngreso);
+        $this->result =  $this->db->registro();
+        return $this->result->id_puesto;
+    }
     
     // metodo se relizan los llamados necesarios para calcular cuanto debe de pagar un determinado vehículo
     public function TraerInfoParaSalida(int $id, string $tipo)

@@ -2,6 +2,8 @@ var tblIngresos;
 var fechaInicio;
 var fechaFinal;
 var idIngreso;
+var precio;
+var valor;
 
 function inicio() {
     fechaInicio = $("#fecha-inicio-input").val();
@@ -117,7 +119,7 @@ function traerInfoSalida(id, tipo, placa) {
         },
         success: function(datos) {
             console.log(datos);
-            setearModalInfoSalida(datos, placa);
+            setearInfoSalida(datos, placa);
             Funciones.cerrarModalCargando();
         },
         error: function(msj) {
@@ -129,7 +131,9 @@ function traerInfoSalida(id, tipo, placa) {
 
 
 // función donde se setea la información de la salida en el modal
-function setearModalInfoSalida(datos, placa) {
+function setearInfoSalida(datos, placa) {
+    valor = datos.valor;
+    horas = datos.horas;
     let html = `<p>¿Esta seguro de registrar la salida de este vehículo con placas ${placa} </p>`;
     html += `<p>Valor: ${datos.valor} por ${datos.horas} horas </p>`;
     $("#modal-confirmar-salida").modal("show");
@@ -143,3 +147,34 @@ function cerrarModalConfirmacionSalida() {
 }
 
 // función donde se registra la salida de los vehículos
+function registrarSalidaVehiculo() {
+    let objeto = {
+        idIngreso: idIngreso,
+        horas: horas,
+        valor: valor
+    };
+    $.ajax({
+        method: "POST",
+        url: `${ruta}/RegistroSalida/RegistrarSalidaVehiculo`,
+        data: objeto,
+        beforeSend: function() {
+            Funciones.abrirModalCargando();
+        },
+        success: function(datos) {
+            console.log(datos);
+            if (datos.res) {
+                alertify.success(`<center><b style='color:white;'>${datos.msg}</b></center>`);
+                tblIngresos.ajax.reload();
+                cerrarModalConfirmacionSalida();
+            } else {
+                alertify.error(`<center><b style='color:white;'>${datos.msg}</b></center>`);
+            }
+            Funciones.cerrarModalCargando();
+        },
+        error: function(msj) {
+            alertify.error(`<center><b style='color:white;'>${msj.responseText}</b></center>`);
+            console.log(msj);
+            Funciones.cerrarModalCargando();
+        }
+    });
+}

@@ -12,6 +12,7 @@ class Login extends Controller
     public function index()
     {
         $datos = [
+            'tituloModulo' => 'Ingreso Super Administrador',
             'titulo' => 'Login'
         ];
         $this->vista('Login', $datos);
@@ -21,6 +22,7 @@ class Login extends Controller
     public function ingresar()
     {
         $datos = [
+            'tituloModulo' => 'Ingreso Administrador',
             'titulo' => 'Login'
         ];
         $this->vista('Login2', $datos);

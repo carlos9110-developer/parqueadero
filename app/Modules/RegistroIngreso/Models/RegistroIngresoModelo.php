@@ -122,6 +122,52 @@ class RegistroIngresoModelo
         $this->db->execute();
     }
 
+    // metodod donde se retorna el listado de los ingresos de un determinado parqueadero
+    public function ListarInformeIngresos(array $datos)
+    {
+        if (strlen(session_id()) < 1) 
+        {
+            session_start();
+        }
+        $table      = 'ingresos';
+        // Table's primary key
+        $primaryKey = 'id';
+        // indexes
+        $columns = array
+        (
+            array( 'db' => '`ing`.`id`',     'dt' => 'id',     'field' => 'id' ),
+            array( 'db' => '`usu`.`cedula`', 'dt' => 'cedula', 'field' => 'cedula' ),
+            array( 'db' => '`ing`.`tipo`',  'dt' => 'tipo',  'field' => 'tipo', 'formatter' => function( $tipo, $row )
+			{
+                if($tipo=="M"){
+                    return "Moto";
+                }else{
+                    return "Carro";
+                }
+            }),
+            array( 'db' => '`ing`.`placa`',  'dt' => 'placa',  'field' => 'placa' ),
+            array( 'db' => '`ing`.`marca`',  'dt' => 'marca',  'field' => 'marca' ),
+            array( 'db' => '`pis`.`piso`',   'dt' => 'piso',   'field' => 'piso' ),
+            array( 'db' => '`ing`.`fecha_hora_entrada`',  'dt' => 'fecha_entrada',  'field' => 'fecha_hora_entrada'),
+            array( 'db' => '`ing`.`fecha_hora_salida`',  'dt' => 'fecha_salida',  'field' => 'fecha_hora_salida'),
+            array( 'db' => '`ing`.`horas`',  'dt' => 'horas',  'field' => 'horas'),
+            array( 'db' => '`ing`.`precio`',  'dt' => 'precio',  'field' => 'precio')
+        );
+        $sql_details = array
+        (
+            'user' => DB_USER,
+            'pass' => DB_PASS,
+            'db'   => DB_NAME,
+            'host' => DB_HOST
+        );
+        $joinQuery = "FROM `ingresos` AS `ing` JOIN `usuarios` AS `usu` ON (`ing`.`id_usuario` = `usu`.`id`) JOIN `puestos` AS `pues` ON (`ing`.`id_puesto` = `pues`.`id`) JOIN `pisos` AS `pis` ON (`pues`.`id_piso` = `pis`.`id`) ";
+        $extraWhere= "`ing`.`id_parqueadero`='".$_SESSION['id_parqueadero']."' AND  (date(`ing`.`fecha_hora_entrada`) BETWEEN  '".$_GET['fechaInicio']."' AND  '".$_GET['fechaFinal']."')   ";
+        $groupBy = "";
+        $having = "";
+        return SSP::simple($datos, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraWhere, $groupBy, $having );
+    }
+
+
     
 
 

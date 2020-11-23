@@ -1,43 +1,6 @@
 <?php
     require(RUTA_APP . '/Views/inc/header_2.php');
 ?>
-<style>
-.flex{
-    display: flex;
-}
-.columna-matrix{
-    width: 50px;
-    height: 50px;
-    border: 1px solid #af9d9d;
-    padding-top: 2px;
-    padding-right: 8px;
-    padding-left: 8px;
-}
-
-.columna-libre{
-    background-color: #a9efba;
-}
-
-#div-imprimir-matriz{
-    margin-top: 1%;
-    cursor: pointer;
-}
-
-.span-contador-columna-fila
-{
-    font-size: 13px;
-}
-.columna-seleccionada{
-    background-color: #9090e6;
-}
-.columna-ocupada{
-    background-color: #e27878;
-}
-.container-fluid{
-    margin-top: 30px;
-}
-</style>
-
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
@@ -81,7 +44,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-copyright"></i></span>
                             </div>
-                            <select id="marca-input" name="marca-input" class="form-control">
+                            <select id="marca-input" name="marca-input" class="form-control" required>
                                 <option value="">Seleccione la marca</option>
                                 <?php foreach($datos['listaMarcas'] as $marca  ): ?>
                                     <option value="<?= $marca->marca ?>"><?= $marca->marca ?></option>

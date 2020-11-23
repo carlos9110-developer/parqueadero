@@ -13,80 +13,66 @@ class RegistroParqueaderosModelo
         $this->response = array();
     }
 
-    public function insertar(array $datos)
+    public function InsertarForm(array $datos)
     {
         $tmp_name = $_FILES['logo']['tmp_name'];
-        // primero verificamos que si se haya cargado el archivo
-        if (is_uploaded_file($tmp_name))
-        {
-            $img_file = $_FILES['logo']['name'];
-            $img_type = explode(".",$img_file);
-            $img_type = $img_type[1];
-            if ($img_type=="png" || $img_type=="jpeg" ||  $img_type=="jpg" )
+        // primero validamos que se realize el registro correctamente
+        $idParqueadero = $this->GuardarInformacion($datos);
+
+        if($idParqueadero!=0){
+            if (is_uploaded_file($tmp_name))
             {
-                if (move_uploaded_file($tmp_name, 'img/logos_parqueaderos/nuevo.jpg'))
+                $img_file = $_FILES['logo']['name'];
+                $img_type = explode(".",$img_file);
+                $img_type = $img_type[1];
+                if ($img_type=="png" || $img_type=="jpeg" ||  $img_type=="jpg" )
                 {
-                    $this->response = $this->guardar_informacion($datos);
-                    if(!rename("img/logos_parqueaderos/nuevo.jpg", "img/logos_parqueaderos/".$this->response['id'].".jpg")){
-                        $this->response['msg']     = "Información parqueadero registrada exitosamente, pero se presento un problema al guardar la imagen por favor intentelo de nuevo";
+                    if (move_uploaded_file($tmp_name, 'img/logos_parqueaderos/'.$idParqueadero.'.jpg'))
+                    {
+                        $this->RegistrarRegistroFoto($idParqueadero);
+                        return 1;
+                    }else{
+                        return 2;
                     }
-                    else{
-                        $this->registrar_registro_foto($this->response['id']);
-                    }
-                    return $this->response;
+                }else{
+                    return 3;  
                 }
             }else{
-               return $this->guardar_informacion($datos);  
+                return 1;
             }
-        }
-        else
-        {
-            return $this->guardar_informacion($datos);
+        }else{
+            return 0;
         }
     }
 
-
-    /*
-    public function insertar(array $datos)
-    {
-        $tmp_name = $_FILES['logo']['tmp_name'];
-        // primero verificamos que si se haya cargado el archivo
-        if (is_uploaded_file($tmp_name))
-        {
-            $img_file = $_FILES['logo']['name'];
-            $img_type = explode(".",$img_file);
-            $img_type = $img_type[1];
-            if ($img_type=="png" || $img_type=="jpeg" ||  $img_type=="jpg" )
-            {
-                if (move_uploaded_file($tmp_name, 'img/logos_parqueaderos/nuevo.jpg'))
-                {
-                    $this->response = $this->guardar_informacion($datos);
-                    if(!rename("img/logos_parqueaderos/nuevo.jpg", "img/logos_parqueaderos/".$this->response['id'].".jpg")){
-                        $this->response['msg']     = "Información parqueadero registrada exitosamente, pero se presento un problema al guardar la imagen por favor intentelo de nuevo";
-                    }
-                    else{
-                        $this->registrar_registro_foto($this->response['id']);
-                    }
-                    return $this->response;
-                }
-            }else{
-               return $this->guardar_informacion($datos);  
-            }
-        }
-        else
-        {
-            return $this->guardar_informacion($datos);
-        }
+    //función donde se proces la consulta para registrar la información de un parqueadero
+    private function GuardarInformacion(array $datos){
+        try {  
+            $this->db->query(" INSERT INTO  parqueaderos(nit,nombre,direccion,telefono,pisos,capacidad_carros,capacidad_motos,fecha_registro) VALUES(:nit,:nombre,:direccion,:telefono,:pisos,:capacidad_carros,:capacidad_motos,:fecha_registro)  ");
+            $this->db->bind(':nit',$datos['nit']);
+            $this->db->bind(':nombre',$datos['nombre']);
+            $this->db->bind(':direccion',$datos['direccion']);
+            $this->db->bind(':telefono',$datos['telefono']);
+            $this->db->bind(':pisos',$datos['pisos']);
+            $this->db->bind(':capacidad_carros',$datos['capacidad_carros']);
+            $this->db->bind(':capacidad_motos',$datos['capacidad_motos']);
+            $this->db->bind(':fecha_registro',$this->fechaActual);
+            $this->db->execute();
+            return $this->db->con->lastInsertId();
+        } catch (Exception $e) {
+           return 0;
+        } 
     }
-    */
 
-    public function guardarMatrixPiso(array $datos)
+
+    public function GuardarMatrixPiso(array $datos)
     {
         $arrayColumnas  =json_decode($datos["matrix"], true );
         $columnas = $datos['columnas'];
         $filas = $datos['filas'];
         try {  
             $this->db->con->beginTransaction();
+            $this->VerificarEliminarInfoPiso($datos);
             $id = $this->guardarInfoPiso($datos);
             $this->procesarInformacionPuestos($id,$arrayColumnas,$filas,$columnas);
             $this->db->con->commit();
@@ -95,9 +81,57 @@ class RegistroParqueaderosModelo
         }catch (Exception $e) {
             $this->db->con->rollBack();
             $this->response['success'] = false;
-            $this->response['msg']     = "Error, no fue posible registrar el diseño del piso, por favor intentelo nuevamente";
+            $this->response['msg']     = "Error, se presento un problema en el servidor al registrar el diseño del piso, por favor intentelo de nuevo";
+            //$this->response['msg']     = $e->getMessage();
         } 
         return $this->response;
+    }
+
+
+    // metodo donde se verifica para eliminar la información de un piso
+    private function VerificarEliminarInfoPiso(array $datos)
+    {
+        if($this->VerificarExistenciaPiso($datos) == 1){
+            $idPiso = $this->RetornarIdPiso($datos);
+            $this->EliminarMatrizPiso($idPiso);
+            $this->EliminarPiso($idPiso);
+        }
+    }
+
+    // metodo donde se retorna la cuenta para saber si ya se registro un piso
+    private function VerificarExistenciaPiso(array $datos)
+    {
+        $this->db->query(" SELECT COUNT(id) AS cuenta FROM pisos WHERE id_parqueadero=:id_parqueadero AND piso=:piso ");
+        $this->db->bind(':id_parqueadero',$datos['parqueadero']);
+        $this->db->bind(':piso',$datos['piso']);
+        $this->result = $this->db->registro();
+        return $this->result->cuenta;
+    }
+
+    // metodo donde se retorna el id de un piso a partir de su número
+    private function RetornarIdPiso(array $datos)
+    {
+        $this->db->query(" SELECT id FROM pisos WHERE id_parqueadero=:id_parqueadero AND piso=:piso ");
+        $this->db->bind(':id_parqueadero',$datos['parqueadero']);
+        $this->db->bind(':piso',$datos['piso']);
+        $this->result = $this->db->registro();
+        return $this->result->id;
+    }
+
+
+    // metodo donde se elimina un piso
+    private function EliminarPiso(int $idPiso)
+    {
+        $this->db->query(" DELETE FROM pisos where id=:id ");
+        $this->db->bind(':id',$idPiso);
+        $this->db->execute();
+    }
+
+    private function EliminarMatrizPiso(int $idPiso)
+    {
+        $this->db->query(" DELETE FROM puestos where id_piso=:id_piso ");
+        $this->db->bind(':id_piso',$idPiso);
+        $this->db->execute();
     }
 
     public function guardarMatrixPisoEditar(array $datos)
@@ -143,21 +177,7 @@ class RegistroParqueaderosModelo
         }
     }
 
-    private function eliminarMatrizPiso(int $idPiso)
-    {
-        $this->db->query(" DELETE FROM puestos where id_piso=:id_piso ");
-        $this->db->bind(':id_piso',$idPiso);
-        $this->db->execute();
-    }
-
-    private function eliminarPiso(int $idPiso)
-    {
-        $this->db->query(" DELETE FROM pisos where id=:id ");
-        $this->db->bind(':id',$idPiso);
-        $this->db->execute();
-    }
-
-
+    
     private function  insertarPuestoParqueadero(int $idPiso,string $tipoPuesto)
     {
         $this->db->query(" INSERT INTO  puestos(id_piso,tipo_puesto) VALUES (:id_piso,:tipo_puesto)  ");
@@ -168,7 +188,7 @@ class RegistroParqueaderosModelo
 
 
 
-    public function registrar_registro_foto(int $id)
+    private function RegistrarRegistroFoto(int $id)
     {
         $this->db->query("UPDATE parqueaderos SET registro_logo=:registro_logo WHERE id=:id ");
         $this->db->bind(':registro_logo','1');
@@ -176,33 +196,6 @@ class RegistroParqueaderosModelo
         $this->db->execute();
     }
 
-    //función donde se proces la consulta para registrar la información de un parqueadero
-    public function guardar_informacion(array $datos){
-        try {  
-            $this->db->con->beginTransaction();
-            $this->db->query(" INSERT INTO  parqueaderos(nit,nombre,direccion,telefono,pisos,capacidad_carros,capacidad_motos,fecha_registro) VALUES(:nit,:nombre,:direccion,:telefono,:pisos,:capacidad_carros,:capacidad_motos,:fecha_registro)  ");
-            $this->db->bind(':nit',$datos['nit']);
-            $this->db->bind(':nombre',$datos['nombre']);
-            $this->db->bind(':direccion',$datos['direccion']);
-            $this->db->bind(':telefono',$datos['telefono']);
-            $this->db->bind(':pisos',$datos['pisos']);
-            $this->db->bind(':capacidad_carros',$datos['capacidad_carros']);
-            $this->db->bind(':capacidad_motos',$datos['capacidad_motos']);
-            $this->db->bind(':fecha_registro',$this->fechaActual);
-            $this->db->execute();
-            $id   =  $this->db->con->lastInsertId();
-            $this->db->con->commit();
-            $this->response['id']      = $id;
-            $this->response['success'] = true;
-            $this->response['msg']     = "Información parqueadero registrada exitosamente";
-            return $this->response;
-        } catch (Exception $e) {
-            $this->db->con->rollBack();
-            $this->response['success'] = false;
-            $this->response['msg']     = "No fue posible registrar la información el parqueadero, por favor verifique que no existe un parqueadero con el mismo nit";
-            return $this->response;
-        } 
-    }
 
     public function listar()
     {
@@ -280,51 +273,59 @@ class RegistroParqueaderosModelo
         return $this->db->registros();
     }
 
-    // método donde se edita un determinado registro
-    /*
-    public function editar(array $datos)
+
+    public function EditarForm(array $datos)
     {
         $tmp_name = $_FILES['logo']['tmp_name'];
-        // primero verificamos que si se haya cargado el archivo
-        if (is_uploaded_file($tmp_name))
-        {
-            $img_file = $_FILES['logo']['name'];
-            $img_type = explode(".",$img_file);
-            $img_type = $img_type[1];
-            if ($img_type=="png" || $img_type=="jpeg" ||  $img_type=="jpg" )
+        // primero validamos que se realize el registro correctamente
+        $this->result = $this->EditarInformacion($datos);
+        
+        if($this->result){
+            if (is_uploaded_file($tmp_name))
             {
-                if (move_uploaded_file($tmp_name, 'img/logos_parqueaderos/nuevo.jpg'))
-                {
-                    $this->response = $this->guardar_informacion($datos);
-                    if(!rename("img/logos_parqueaderos/nuevo.jpg", "img/logos_parqueaderos/".$this->response['id'].".jpg")){
-                        $this->response['msg']     = "Información parqueadero registrada exitosamente, pero se presento un problema al guardar la imagen por favor intentelo de nuevo";
+                if($this->ValidarEliminacionImagenAnterior($datos['id'])){
+                    $img_file = $_FILES['logo']['name'];
+                    $img_type = explode(".",$img_file);
+                    $img_type = $img_type[1];
+                    if ($img_type=="png" || $img_type=="jpeg" ||  $img_type=="jpg" )
+                    {
+                        if (move_uploaded_file($tmp_name, 'img/logos_parqueaderos/'.$datos['id'].'.jpg'))
+                        {
+                            $this->RegistrarRegistroFoto($datos['id']);
+                            return 1;
+                        }else{
+                            return 2;
+                        }
+                    }else{
+                        return 3;  
                     }
-                    else{
-                        $this->registrar_registro_foto($this->response['id']);
-                    }
-                    return $this->response;
+                }else{
+                    return 2;
                 }
+                
             }else{
-               return $this->editar_informacion($datos);  
+                return 1;
             }
-        }
-        else
-        {
-            return $this->editar_informacion($datos);
+        }else{
+            return 0;
         }
     }
-    */
 
-    public function editar(array $datos)
+
+    // validar eliminación imagen anterior
+    private function ValidarEliminacionImagenAnterior(int $id)
     {
-        return $this->editar_informacion($datos);
+        if (file_exists("img/logos_parqueaderos/'.$id.'.jpg")) {
+            return unlink("img/logos_parqueaderos/'.$id.'.jpg");
+        }
+        return true;
     }
+
 
     // metodo donde se edita la información de un parqueadero
-    function editar_informacion(array $datos)
+    private function EditarInformacion(array $datos)
     {
         try {  
-            $this->db->con->beginTransaction();
             $this->db->query("UPDATE parqueaderos SET nit=:nit,nombre=:nombre,direccion=:direccion,telefono=:telefono,pisos=:pisos,capacidad_carros=:capacidad_carros,capacidad_motos=:capacidad_motos WHERE id=:id ");
             $this->db->bind(':nit',$datos['nit']);
             $this->db->bind(':nombre',$datos['nombre']);
@@ -333,13 +334,10 @@ class RegistroParqueaderosModelo
             $this->db->bind(':pisos',$datos['pisos']);
             $this->db->bind(':capacidad_carros',$datos['capacidad_carros']);
             $this->db->bind(':capacidad_motos',$datos['capacidad_motos']);
-            //$this->db->bind(':fecha_registro',$datos['fecha_registro']);
             $this->db->bind(':id',$datos['id']);
             $this->db->execute();
-            $this->db->con->commit();
             return true;
         } catch (Exception $e) {
-            $this->db->con->rollBack();
             return false;
         } 
     }

@@ -50,10 +50,18 @@ function listar() {
                 data: "id",
 
                 "fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
-                    $(nTd).html(
-                        `<a title="Editar Información Parqueadero" class="btn btn-sm btn-warning" href="${ruta}/RegistroParqueaderos/Editar/${oData.id}"><i class="fas fa-edit"></i></a>` +
-                        `<a class="btn btn-sm btn-primary" href="${ruta}/RegistroParqueaderos/ConfiguracionPlano/${oData.id}"><i class="fas fa-cogs"></i></a>`
-                    );
+                    if(oData.configuracion_plano=="1"){
+                        $(nTd).html(
+                            `<a title="Editar Información Parqueadero" class="btn btn-sm btn-warning" href="${ruta}/RegistroParqueaderos/Editar/${oData.id}"><i class="fas fa-edit"></i></a>` +
+                            `<a title="Editar Planos Parqueadero" class="btn btn-sm btn-primary" href="${ruta}/RegistroParqueaderos/EditarPlanoParqueadero/${oData.id}"><i class="fas fa-cogs"></i></a>`
+                        );
+                    }else{
+                        $(nTd).html(
+                            `<a title="Editar Información Parqueadero" class="btn btn-sm btn-warning" href="${ruta}/RegistroParqueaderos/Editar/${oData.id}"><i class="fas fa-edit"></i></a>` +
+                            `<a title="Configurar Planos Parqueadero" class="btn btn-sm btn-primary" href="${ruta}/RegistroParqueaderos/ConfiguracionPlano/${oData.id}"><i class="fas fa-cog"></i></a>`
+                        );
+                    }
+                    
                 }
             }
         ],

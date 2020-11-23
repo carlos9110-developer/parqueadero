@@ -1,5 +1,4 @@
 <?php
-
 class RegistroParqueaderos extends Controller
 {
     private  $response;
@@ -113,7 +112,7 @@ class RegistroParqueaderos extends Controller
         $this->response    = $this->objModelo->traerDatos($id);
         $datos = [
             'titulo' => 'Registro Parqueaderos',
-            'titulo_vista' => 'Configuración Plano Parqueadero <b> '.$this->response->nombre.'</b>',
+            'titulo_vista' => 'Configuración Planos Parqueadero <b> '.$this->response->nombre.'</b>',
             'infoParqueadero'=>$this->response
         ];
         $this->vista('ConfiguracionPlano', $datos, $this->nombreModulo);
@@ -123,6 +122,19 @@ class RegistroParqueaderos extends Controller
     public function traerDatos(int $id)
     {
         responderJson($this->registroParqueaderoModelo->traerDatos($id));
+    }
+
+    // método donde se retorna la vista para editar los planos de un determinado parqueadero
+    public function EditarPlanoParqueadero(int $id)
+    {
+        $this->response    = $this->objModelo->traerDatosParqueaderoPisos($id);
+        $datos = [
+            'titulo' => 'Registro Parqueaderos',
+            'titulo_vista' => 'Editar Planos Parqueadero <b> '.$this->response['infoParqueadero']->nombre.'</b>',
+            'datosParqueadero'=>$this->response['infoParqueadero'],
+            'pisosParqueadero'=>$this->response['pisosParqueadero']
+        ];
+        $this->vista('EditarPlanoParqueadero', $datos, $this->nombreModulo);
     }
 
     /*
@@ -165,6 +177,15 @@ class RegistroParqueaderos extends Controller
     {
         responderJson($this->objModelo->GuardarMatrixPiso($_POST));
     } 
+
+     /**
+     * EL método EditarMatrixPiso se encarga de editar la matrix de un determinado piso
+     * @return json con la la respuesta de la acción
+     */
+    public function EditarMatrixPiso()
+    {
+        responderJson($this->objModelo->EditarMatrixPiso($_POST));
+    } 
     
 
     /**
@@ -187,15 +208,7 @@ class RegistroParqueaderos extends Controller
         responderJson($this->objModelo->traerInfoPiso($idPiso));
     }
 
-     /**
-     * EL método guardarMatrixPisoEditar se encarga de editar la matrix de un determinado piso
-     * @return json con la la respuesta de la acción
-     */
-    public function guardarMatrixPisoEditar(int $idPiso)
-    {
-        $_POST['idPiso'] = $idPiso;
-        responderJson($this->objModelo->guardarMatrixPisoEditar($_POST));
-    } 
+    
 
     // metodo donde se carga el array response
     public function cargarArrayResponse(bool $res,string $msg)

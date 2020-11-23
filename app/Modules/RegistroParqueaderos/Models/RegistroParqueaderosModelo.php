@@ -134,26 +134,46 @@ class RegistroParqueaderosModelo
         $this->db->execute();
     }
 
-    public function guardarMatrixPisoEditar(array $datos)
+    public function EditarMatrixPiso(array $datos)
     {
-        $arrayColumnas  =json_decode($datos["matrix"], true );
+        $arrayTipo  =json_decode($datos["matrixTipo"], true );
+        $arrayIds   =json_decode($datos["matrixIds"], true );
         $columnas = $datos['columnas'];
         $filas = $datos['filas'];
         try {  
             $this->db->con->beginTransaction();
-            $this->eliminarMatrizPiso($datos['idPiso']);
-            $this->eliminarPiso($datos['idPiso']);
-            $id = $this->guardarInfoPiso($datos);
-            $this->procesarInformacionPuestos($id,$arrayColumnas,$filas,$columnas);
+            $this->EliminarMatrizPiso($datos['piso']);
+            $this->procesarInformacionPuestosEditar($arrayTipo,$arrayIds,$filas,$columnas);
             $this->db->con->commit();
             $this->response['success'] = true;
-            $this->response['msg']     = "Diseño piso registrado exitosamente";
+            $this->response['msg']     = "Diseño piso actualizado correctamente";
         }catch (Exception $e) {
             $this->db->con->rollBack();
             $this->response['success'] = false;
-            $this->response['msg']     = "Error, no fue posible registrar el diseño del piso, por favor intentelo nuevamente";
+            $this->response['msg']     = "Error, se presento un problema en el servidor al actualizar el diseño del piso, por favor intentelo de nuevo";
+            //$this->response['msg']     = $e->getMessage();
         } 
-        return $this->response; 
+        return $this->response;
+    }
+
+    // metodo donde se realiza el procesamiento de la matriz de un piso cuando este se va editar
+    private function procesarInformacionPuestosEditar(array $arrayEstados,array $arrayIds,int $filas, int $columnas)
+    {
+        for ($f=0; $f < $filas ; $f++) { 
+            for ($c=0; $c < $columnas ; $c++) { 
+                $this->EditarPuestoParqueadero($arrayEstados[$f][$c],$arrayIds[$f][$c]);
+            }
+        }
+    }
+
+
+    // metodo donde se realiza la edición de los puestos de un determinado parqueadero
+    private function EditarPuestoParqueadero(string $tipoPuesto, int $id)
+    {
+        $this->db->query(" UPDATE puestos SET tipo_puesto=:tipo_puesto WHERE id=:id  ");
+        $this->db->bind(':tipo_puesto',$tipoPuesto);
+        $this->db->bind(':id',$id);
+        $this->db->execute();
     }
 
 
@@ -213,7 +233,9 @@ class RegistroParqueaderosModelo
             array( 'db' => '`par`.`pisos`',        'dt' => 'pisos',          'field' => 'pisos' ),
             array( 'db' => '`par`.`capacidad_carros`',    'dt' => 'capacidad_carros',      'field' => 'capacidad_carros' ),
             array( 'db' => '`par`.`capacidad_motos`',     'dt' => 'capacidad_motos',       'field' => 'capacidad_motos' ),
-            array( 'db' => '`par`.`fecha_registro`',     'dt' => 'fecha_registro',       'field' => 'fecha_registro' )
+            array( 'db' => '`par`.`fecha_registro`',     'dt' => 'fecha_registro',       'field' => 'fecha_registro' ),
+            array( 'db' => '`par`.`registro_logo`',     'dt' => 'registro_logo',       'field' => 'registro_logo' ),
+            array( 'db' => '`par`.`configuracion_plano`',     'dt' => 'configuracion_plano',       'field' => 'configuracion_plano' )
         );
         $sql_details = array
 		(
@@ -228,6 +250,14 @@ class RegistroParqueaderosModelo
         $groupBy = "";
 		$having = "";
         return SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraWhere, $groupBy, $having );
+    }
+
+    // método donde se retorna la información de un parqueadero y sus pisos
+    public function traerDatosParqueaderoPisos(int $id)
+    {
+        $this->response["infoParqueadero"]  = $this->traerDatos($id);
+        $this->response["pisosParqueadero"] = $this->traerPisosParqueadero($id);
+        return $this->response;
     }
 
     // método donde se traen los datos de un determinado registro

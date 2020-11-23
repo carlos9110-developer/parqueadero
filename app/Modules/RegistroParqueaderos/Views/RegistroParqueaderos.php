@@ -24,7 +24,6 @@
                     </div>
                 </div>
 
-
                 <!-- Content Row -->
                 <div id="div-listado-parqueaderos" class="row">
                     <div class="col-12">

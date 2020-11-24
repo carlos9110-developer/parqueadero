@@ -137,6 +137,17 @@ class RegistroParqueaderos extends Controller
         $this->vista('EditarPlanoParqueadero', $datos, $this->nombreModulo);
     }
 
+    // metodo donde se guarda la configuración del plano de un parqueadero
+    public function GuardarConfiguracionPlanos()
+    {
+        if($this->objModelo->GuardarConfiguracionPlanos($_POST['id'])){
+            $this->cargarArrayResponse(true,"Configuración plano registrada con exito");
+        }else{
+            $this->cargarArrayResponse(false,"Error, se presento un problema al registrar la configuración, por favor intentelo de nuevo");
+        }
+        responderJson($this->response);
+    }
+
     /*
     // método donde se edita la información de un determinado usuario
     public function editar(int $id)

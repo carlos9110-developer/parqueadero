@@ -23,6 +23,7 @@
                                 <thead>
                                     <tr class="active">
                                         <th>ID</th>
+                                        <th></th>
                                         <th>Nit</th>
                                         <th>Nombre</th>
                                         <th>Dirección</th>

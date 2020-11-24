@@ -71,9 +71,12 @@
                                         <button id="btn-herramienta-libre" onclick="marcarHerramienta('L');" class="btn btn-default btn-md btn-herramienta"><i class="fas fa-square-full"></i></button>
                                     </div>
                                     <button onclick="guardarMatrix();" type="button" class="btn btn-success" id="btn-guardar-matriz"><i class="fas fa-save"></i> Guardar Diseño Piso</button>
+                                    <button onclick="confirmarGuardarConfiguracionPlano();" type="button" class="btn btn-success" id="btn-guardar-matriz"><i class="fas fa-save"></i> Guardar Planos Parqueadero</button>
                                 </div>
+                                    
                                 <div id="div-imprimir-matriz">          
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -83,6 +86,30 @@
         </div>
 
         
+        <!-- MODALES -->
+<div id="modal-confirmar" class="modal" tabindex="-1" role="dialog" data-backdrop='static' data-keyboard='false'>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar Registro Planos</h5>
+                <button type="button" class="close" onclick="cerrarModalConfirmar()"  aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               <p>¿ Esta seguro de confirmar el registro de los planos, recuerde que ya no podra alterar el número de las columnas ni de las filas de los pisos ?</p>
+               <div class="col-lg-12 text-center">
+                    <button onclick="guardarPlano();" type="button" class="btn btn-success">Aceptar</button>
+                    <button  onclick="cerrarModalConfirmar();" type="button" class="btn btn-danger">Cancelar</button>
+               </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="cerrarModalConfirmar();" style="font-weight: bold;" class="btn btn-danger btn-md">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
          
         <?php require(RUTA_APP . '/Views/inc/cargando.php'); ?>
         <script src="<?php echo RUTA_URL?>/RegistroParqueaderos/files?js=Assets/js/configuracionPlano.js"></script>

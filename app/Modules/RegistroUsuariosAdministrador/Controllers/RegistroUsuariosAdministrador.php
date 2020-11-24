@@ -97,13 +97,31 @@ class RegistroUsuariosAdministrador extends Controller
     // metodo donde se retorna la vista para asignar la administración de parqueaderos a un determinado usuario
     public function asignarAdministracionParqueaderos(int $id)
     {
-        $this->response    = $this->usuarioModelo->traerInfoUsuario($id);
+        $this->response    = $this->usuarioModelo->traerInfoUsuarioParqueaderos($id);
         $datos = [
             'titulo' => 'Registro Usuarios Administrador',
             'titulo_vista' => 'Asignar Parqueaderos Usuario',
-            'info_usuario'=>$this->response
+            'info_usuario'=>$this->response['infoUsuario'],
+            'parqueaderos'=>$this->response['parqueaderos']
         ];
         $this->vista('AsignarParqueaderos', $datos, $this->nombreModulo);
+    }
+
+    // método donde se realiza la asignación de un parqueadero a un determinado usuario
+    public function AsignarParqueadero()
+    {
+
+        switch ($this->usuarioModelo->AsignarParqueadero($_POST)) {
+            case 1:
+                $this->cargarArrayResponse(true,"Usuario asignado al parqueadero seleccionado");
+            break;
+            case 2:
+                $this->cargarArrayResponse(false,"Error, se presento un problema en el servidor por favor intentelo de nuevo");
+            case 3:
+                $this->cargarArrayResponse(false,"Error, este usuario ya esta asignado al parqueadero seleccionado");
+            break;
+        }  
+        responderJson($this->response);
     }
 
     // metodo donde se carga el array response

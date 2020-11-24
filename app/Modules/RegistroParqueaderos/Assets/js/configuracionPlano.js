@@ -153,7 +153,7 @@ function guardarMatrix() {
         },
         success: function(datos) {
             console.log(datos);
-            if (datos.success) {
+            if (datos.res) {
                 alertify.success(`<center><b style="color:white;">${datos.msg}</b></center>`);
             } else {
                 alertify.error(`<center><b style="color:white;">${datos.msg}</b></center>`);
@@ -170,4 +170,49 @@ function guardarMatrix() {
             alertify.error("<center><b style='color:white;'>Error, se presento un problema en el servidor al realizar la acción, intentelo de nuevo</b></center>");
         }
     });
+}
+
+
+// functión donde se abre el modal para guardar la configuración de un determinado plano de un parqueadero
+function confirmarGuardarConfiguracionPlano() {
+    $("#modal-confirmar").modal("show");
+}
+
+// metodo donde se confirma que se guardo un determinado plano
+function guardarPlano() {
+    let objeto = { id: IdParqueadero };
+    $.ajax({
+        method: "post",
+        data: objeto,
+        url: `${ruta}/RegistroParqueaderos/GuardarConfiguracionPlanos`,
+        beforeSend: function() {
+            Funciones.abrirModalCargando();
+        },
+        success: function(datos) {
+            console.log(datos);
+            if (datos.res) {
+                alertify.success(`<center><b style="color:white;">${datos.msg}</b></center>`);
+                setTimeout("redireccionarListadoParqueaderos()", 5000);
+            } else {
+                alertify.error(`<center><b style="color:white;">${datos.msg}</b></center>`);
+            }
+            Funciones.cerrarModalCargando();
+        },
+        error: function(msj) {
+            console.log(`<center><b style='color:white;'>${msj.responseText}</b></center>`);
+            Funciones.cerrarModalCargando();
+            alertify.error("<center><b style='color:white;'>Error, se presento un problema en el servidor al realizar la acción, intentelo de nuevo</b></center>");
+        }
+    });
+}
+
+// función donde se muestra una alerta indicandole al usuario que quedo grabada la configuración del parqueadero
+function redireccionarListadoParqueaderos() {
+    window.location = `${ruta}/RegistroParqueaderos/`;
+}
+
+
+// functión donde se cierra el modal para confirmar que se guarda la configuración del plano
+function cerrarModalConfirmar() {
+    $("#modal-confirmar").modal("hide");
 }

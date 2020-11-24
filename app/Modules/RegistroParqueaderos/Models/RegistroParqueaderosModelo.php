@@ -18,8 +18,10 @@ class RegistroParqueaderosModelo
         $tmp_name = $_FILES['logo']['tmp_name'];
         // primero validamos que se realize el registro correctamente
         $idParqueadero = $this->GuardarInformacion($datos);
+        $this->registrarConfigParqueadero($idParqueadero);
 
         if($idParqueadero!=0){
+
             if (is_uploaded_file($tmp_name))
             {
                 $img_file = $_FILES['logo']['name'];
@@ -43,6 +45,18 @@ class RegistroParqueaderosModelo
         }else{
             return 0;
         }
+    }
+
+
+    // función donde se registra en la tabla config del parqueadero
+    private  function registrarConfigParqueadero(int $idParqueadero)
+    {
+        $this->db->query(" INSERT INTO  configuracion_parqueaderos(id_parqueadero,tarifa,precio_moto,precio_carro) VALUES(:id_parqueadero,:tarifa,:precio_moto,:precio_carro)  ");
+        $this->db->bind(':id_parqueadero',$idParqueadero);
+        $this->db->bind(':tarifa',"Hora");
+        $this->db->bind(':precio_moto',800);
+        $this->db->bind(':precio_carro',3000);
+        $this->db->execute();
     }
 
     //función donde se proces la consulta para registrar la información de un parqueadero
@@ -76,15 +90,30 @@ class RegistroParqueaderosModelo
             $id = $this->guardarInfoPiso($datos);
             $this->procesarInformacionPuestos($id,$arrayColumnas,$filas,$columnas);
             $this->db->con->commit();
-            $this->response['success'] = true;
+            $this->response['res'] = true;
             $this->response['msg']     = "Diseño piso registrado exitosamente";
         }catch (Exception $e) {
             $this->db->con->rollBack();
-            $this->response['success'] = false;
+            $this->response['res'] = false;
             $this->response['msg']     = "Error, se presento un problema en el servidor al registrar el diseño del piso, por favor intentelo de nuevo";
             //$this->response['msg']     = $e->getMessage();
         } 
         return $this->response;
+    }
+
+
+    // metodo donde se guarda la configuración de los planos de un parqueadero
+    public function GuardarConfiguracionPlanos(int $id)
+    {
+        try {
+            $this->db->query(" UPDATE parqueaderos SET configuracion_plano=:configuracion_plano WHERE id=:id  ");
+            $this->db->bind(':configuracion_plano','1');
+            $this->db->bind(':id',$id);
+            $this->db->execute();
+            return true;
+        }catch (Exception $e) {
+            return false;
+        }
     }
 
 
@@ -142,14 +171,13 @@ class RegistroParqueaderosModelo
         $filas = $datos['filas'];
         try {  
             $this->db->con->beginTransaction();
-            $this->EliminarMatrizPiso($datos['piso']);
             $this->procesarInformacionPuestosEditar($arrayTipo,$arrayIds,$filas,$columnas);
             $this->db->con->commit();
-            $this->response['success'] = true;
+            $this->response['res'] = true;
             $this->response['msg']     = "Diseño piso actualizado correctamente";
         }catch (Exception $e) {
             $this->db->con->rollBack();
-            $this->response['success'] = false;
+            $this->response['res'] = false;
             $this->response['msg']     = "Error, se presento un problema en el servidor al actualizar el diseño del piso, por favor intentelo de nuevo";
             //$this->response['msg']     = $e->getMessage();
         } 

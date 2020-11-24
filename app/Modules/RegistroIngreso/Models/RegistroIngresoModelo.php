@@ -100,14 +100,19 @@ class RegistroIngresoModelo
     // metodo donde se registra la información de un ingreso de vehiculo
     private function registroInformacionIngreso(array $datos,$idCliente)
     {
+        if (strlen(session_id()) < 1) 
+        {
+            session_start();
+        }
         $arrayId    =  json_decode($datos["matriz_id"], true );
         $idPuesto   =   $arrayId[$datos["fila"]][$datos["columna"]];
-        $this->db->query(" INSERT INTO ingresos(id_puesto,id_usuario,placa,marca,tipo) VALUES(:id_puesto,:id_usuario,:placa,:marca,:tipo) ");
+        $this->db->query(" INSERT INTO ingresos(id_puesto,id_usuario,placa,marca,tipo,id_parqueadero) VALUES(:id_puesto,:id_usuario,:placa,:marca,:tipo,:id_parqueadero) ");
         $this->db->bind(':id_puesto',$idPuesto);
         $this->db->bind(':id_usuario',$idCliente);
         $this->db->bind(':placa',$datos['placa']);
         $this->db->bind(':marca',$datos['marca']);
         $this->db->bind(':tipo',$datos['tipo']);
+        $this->db->bind(':id_parqueadero',$_SESSION['id_parqueadero'] );
         $this->db->execute();
     }
 

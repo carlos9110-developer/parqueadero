@@ -8,6 +8,9 @@
 </style>
 
 <div class="container-fluid">
+    <div class="col-lg-12 text-right">
+        <a class="btn btn-info" href="<?php echo RUTA_URL ?>/Inicio/InicioSistema"><i class="fas fa-reply"></i> Menú</a>
+    </div>
     <div class="card">
         <div class="card-header">
             <?php   echo $datos['titulo_vista'] ?>

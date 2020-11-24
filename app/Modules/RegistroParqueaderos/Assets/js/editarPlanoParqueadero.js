@@ -115,16 +115,18 @@ function imprimirPlano(puestos) {
     $("#div-imprimir-matriz").show();
     let html = "";
     let cont = 1;
+    let contArray = 0;
     // Ciclo anidado donde se le asigna el valor L a todos los campos de la matrix
     for (var f = 0; f < Matrix.length; f++) {
         html = html + '<div class="flex">';
         //Bucle que recorre el array que está en la posición i
         for (var c = 0; c < Matrix[f].length; c++) {
             html += `<div id="div_fila_${f}_columna_${c}"  onclick="columnaSeleccionada('${f}','${c}');" class="columna-matrix">` +
-                `<span id="span_icono_fila_${f}_columna_${c}"><i class="fas fa-square-full"></i></span><br/>` +
+                `<span id="span_icono_fila_${f}_columna_${c}"><i class="${retornarIconoColumna(puestos[contArray].tipo_puesto)}"></i></span><br/>` +
                 `<span class="span-contador-columna-fila" id="span_cont_fila_${f}_columna_${c}">${cont}</span>` +
                 '</div>';
             cont++;
+            contArray++;
         }
         html += '</div>';
         $("#div-imprimir-matriz").append(html);
@@ -132,9 +134,26 @@ function imprimirPlano(puestos) {
     }
 }
 
+// metodo que retorna el icono de la columnam, según sea el tipo de puesto
+function retornarIconoColumna(tipoPuesto) {
+    let iconoPuesto = "";
+    switch (tipoPuesto) {
+        case "L":
+            iconoPuesto = "fas fa-square-full";
+            break;
+        case "M":
+            iconoPuesto = "fas fa-motorcycle";
+            break;
+        case "C":
+            iconoPuesto = "fas fa-car-side";
+            break;
+    }
+    return iconoPuesto;
+}
+
 
 function guardarMatrix() {
-    let arrayJson  = JSON.stringify(Matrix);
+    let arrayJson = JSON.stringify(Matrix);
     let arrayJson2 = JSON.stringify(MatrixIds);
     console.log("este es el array codificado nuev ccarlos", arrayJson);
     let objeto = {
@@ -156,7 +175,7 @@ function guardarMatrix() {
         },
         success: function(datos) {
             console.log(datos);
-            if (datos.success) {
+            if (datos.res) {
                 alertify.success(`<center><b style="color:white;">${datos.msg}</b></center>`);
             } else {
                 alertify.error(`<center><b style="color:white;">${datos.msg}</b></center>`);
